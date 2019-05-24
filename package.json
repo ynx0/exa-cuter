@@ -1,0 +1,28 @@
+{
+  "name": "exa-cuter",
+  "version": "1.0.0",
+  "description": "exalang parser written in typescript",
+  "main": "index.ts",
+  "scripts": {
+    "exec": "ts-node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ynx0/exa-cuter.git"
+  },
+  "keywords": [
+    "exapunks"
+  ],
+  "author": "ynx0",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ynx0/exa-cuter/issues"
+  },
+  "homepage": "https://github.com/ynx0/exa-cuter#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5"
+  }
+}
