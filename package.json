@@ -20,7 +20,9 @@
     "url": "https://github.com/ynx0/exa-cuter/issues"
   },
   "homepage": "https://github.com/ynx0/exa-cuter#readme",
-  "dependencies": {},
+  "dependencies": {
+    "ohm-js": "^0.14.0"
+  },
   "devDependencies": {
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"

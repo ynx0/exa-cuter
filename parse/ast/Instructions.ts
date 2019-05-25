@@ -1,0 +1,32 @@
+enum Instructions {
+    CopyInstr = "CopyInstr",
+    SwizInstr = "SwizInstr",
+    MarkInstr = "MarkInstr",
+    JumpInstr = "JumpInstr",
+    TJumpInstr = "TJumpInstr",
+    FJumpInstr = "FJumpInstr",
+    TestInstr = "TestInstr",
+    ReplInstr = "ReplInstr",
+    HaltInstr = "HaltInstr",
+    KillInstr = "KillInstr",
+    LinkInstr = "LinkInstr",
+    HostInstr = "HostInstr",
+    ModeInstr = "ModeInstr",
+    VoidInstr = "VoidInstr",
+    MakeInstr = "MakeInstr",
+    GrabInstr = "GrabInstr",
+    FileInstr = "FileInstr",
+    SeekInstr = "SeekInstr",
+    DropInstr = "DropInstr",
+    WipeInstr = "WipeInstr",
+    NoopInstr = "NoopInstr",
+    noteInstr = "noteInstr",
+    RandInstr = "RandInstr",
+    AddInstr = "AddInstr",
+    SubtractInstr = "SubtractInstr",
+    MultiplyInstr = "MultiplyInstr",
+    DivideInstr = "DivideInstr",
+    LoopMacro = "LoopMacro"
+}
+
+export default Instructions;
