@@ -6,14 +6,14 @@ class Register extends Parameter {
 
     readonly name: LocalRegisters;
 
-    constructor(name: LocalRegisters) {
+    constructor(nameInfo: LocalRegisters) {
+        // the reference to the register comes in an array i.e. `['X']`, instead of just 'X'
         super();
-
-        this.name = name;
+        this.name = <LocalRegisters>nameInfo[0];
     }
 
     toString() {
-        return this.name;
+        return this.name.toString();
     }
 
     getValue(): any {

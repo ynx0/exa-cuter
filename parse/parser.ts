@@ -133,7 +133,7 @@ export default class Parser {
             },
 
         };
-        // add all intermediate command semnatics
+        // add all intermediate command semantics
         for (let instr in instructionMap) {
             this.actionMap[instr] = Parser.makeInstr(<Instructions>instr, instructionMap);
         }
@@ -156,15 +156,17 @@ export default class Parser {
         // let has4Args = map[instr] > 3;
         let numArgs = map[instr];
 
-        let argsStr = 'param1';
-        let bodyStr = `return [
-                        param1.tree(),`;
+        let argsStr = 'param1,';
+        let bodyStr = `return [param1.tree(),`;
 
-        for (let i = 0; i < numArgs; i++) {
-            argsStr += `\nparam${i}`;
-            bodyStr += `\nparam${i}.tree()`
+        for (let i = 2; i <= numArgs; i++) {
+            argsStr += `\nparam${i},`;
+            bodyStr += `\nparam${i}.tree(),`
 
         }
+        bodyStr += ']';
+
+        // console.log(bodyStr);
 
         return new Function(argsStr, bodyStr) as Action;
 

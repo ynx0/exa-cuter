@@ -60,9 +60,9 @@ let program8 = `
 SWIZ 5678 0000 X
 `;
 
-let program = parser.getProgramAST(program3);
+let compiledProgram = parser.getProgramAST(program6);
 
-let XA = new EXA(program);
+let XA = new EXA(compiledProgram);
 XA.runUntilCycle(5);
 
 

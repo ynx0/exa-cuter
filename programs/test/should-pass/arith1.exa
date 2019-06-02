@@ -1,0 +1,3 @@
+ADDI 1 1 T
+MULI T T T
+SUBI T 200 T

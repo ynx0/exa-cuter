@@ -1,0 +1,3 @@
+COPY 5 X
+HALT
+COPY 6 X

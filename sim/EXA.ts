@@ -1,5 +1,9 @@
 import Program from "../parse/ast/Program";
 import AST from "../parse/ast/AST";
+import Register from "../parse/ast/Register";
+import EXANumber from "../parse/ast/EXANumber";
+import Instruction from "../parse/ast/Instruction";
+import util from "util";
 
 enum CommMode {
     LOCAL = "LOCAL",
@@ -21,6 +25,7 @@ enum Instructions {
     TEST = "TEST",
     HALT = "HALT",
     MODE = "MODE",
+    NOTE = "NOTE",
 }
 
 export default class EXA {
@@ -57,7 +62,7 @@ export default class EXA {
 
 
     setupCoreDump() {
-        process.on('uncaughtException', err => {
+        process.on('uncaughtException', (err: string | Error) => {
             console.error(err);
             console.error("==========================CORE DUMP==========================");
             this.coreDump();
@@ -82,26 +87,41 @@ export default class EXA {
 
     setupLabels() {
         // Structure of labelMap: { <loop_name> : <line_num> }
-        for (let lineNum in this.program.body) {
-            let instr = this.program.body[lineNum];
+        for (let lineNum in this.program.instructions) {
+            let instr = this.program.instructions[lineNum];
             if (instr.name ===  Instructions.MARK) {
                 this.labelMap[instr.args[0]] = parseInt(lineNum);
             }
         }
     }
 
-    getValueFromParam(param) {
-        if (param instanceof AST.Register) {
-            // console.log("reee");
-            // console.log(param.name);
-            return this[param.name].getValue();
-        } else if (param instanceof AST.EXANumber) {
-            return param.getValue();
+    // when the method name contains something akin to the words "Reference" or "AST", it takes in an ast param, not a sim param
+    getValueFromParamRef(paramRef: Register | EXANumber): (string | number) {
+        if (paramRef instanceof AST.Register) {
+            // return (this[param.name]).getValue(); // THIS WORKS IN JS but not TS so :(((
+            return this.getRegisterFromParamRef(paramRef).getValue();
+        } else if (paramRef instanceof AST.EXANumber) {
+            return paramRef.getValue();
+        } else {
+            throw new Error("Invalid paramRef given:" + util.inspect(paramRef));
         }
     }
 
-    getRegisterFromParam(param) {
-        return this[param];
+    getRegisterFromParamRef(paramRef: Register): EXARegister {
+
+        let rawRegisterReference = paramRef.getValue();
+        console.log(rawRegisterReference);
+        switch (rawRegisterReference) {
+            case AST.LocalRegisters.X:
+                return this.X;
+            case AST.LocalRegisters.T:
+                return this.T;
+            case AST.LocalRegisters.F:
+            case AST.LocalRegisters.M:
+                throw new Error("Unsupported register '" + rawRegisterReference + "' encountered");
+            default:
+                throw new Error("Illegal param '" + rawRegisterReference.toString() + "' given");
+        }
     }
 
     toggleMode() {
@@ -112,8 +132,8 @@ export default class EXA {
         }
     }
 
-    processInstruction(instr) {
-        let Instructions =  Instructions;
+    processInstruction(instr: Instruction) {
+
         // console.log(instr);
         let args = instr.args;
 
@@ -137,8 +157,8 @@ export default class EXA {
                 break;
             case Instructions.COPY:
                 (() => {
-                    let newValue = this.getValueFromParam(args[0]);
-                    let dest = this.getRegisterFromParam(args[1]);
+                    let newValue = this.getValueFromParamRef(args[0]);
+                    let dest = this.getRegisterFromParamRef(args[1]);
                     dest.setValue(newValue);
                 })();
                 break;
@@ -175,8 +195,8 @@ export default class EXA {
 
                     let testExpr = args[0];
                     // TODO what to do for strings?
-                    let param1 = this.getValueFromParam(testExpr.param1);
-                    let param2 = this.getValueFromParam(testExpr.param2);
+                    let param1 = this.getValueFromParamRef(testExpr.param1);
+                    let param2 = this.getValueFromParamRef(testExpr.param2);
                     let operationObj = testExpr.operation;
                     let operationSymbol = operationObj.operation;
                     let opmap = operationObj.opmap;
@@ -203,9 +223,9 @@ export default class EXA {
             case Instructions.MULI:
             case Instructions.DIVI:
                 (() => {
-                    let a = this.getValueFromParam(args[0]);
-                    let b = this.getValueFromParam(args[1]);
-                    let dest = this.getRegisterFromParam(args[2]);
+                    let a = parseInt(<string>this.getValueFromParamRef(args[0]));
+                    let b = parseInt(<string>this.getValueFromParamRef(args[1]));
+                    let dest = this.getRegisterFromParamRef(args[2]);
                     // console.log(`${a} ${instr.name} ${b} -> ${dest}`);
                     if (instr.name === Instructions.ADDI) {
                         dest.setValue(a + b);
@@ -215,7 +235,7 @@ export default class EXA {
                         dest.setValue(a * b);
                     } else if (instr.name === Instructions.DIVI) {
                         // enforce integer division
-                        dest.setValue(parseInt(a / b));
+                        dest.setValue(parseInt(String(a / b)));
                     }
                 })();
                 break;
@@ -228,9 +248,9 @@ export default class EXA {
                     // the reason for reverse is because the swiz instruction operates from right to left. For example
                     // in the number [1 3 5 7], the mask of `4` translates to the digit '1'
                     //                4 3 2 1
-                    let number = Array.from(this.getValueFromParam(args[0]).toString().padStart(4, '0'));
-                    let mask = Array.from(this.getValueFromParam(args[1]).toString().padStart(4, '0')).map(Number);
-                    let dest = this.getRegisterFromParam(args[2]);
+                    let number = Array.from(this.getValueFromParamRef(args[0]).toString().padStart(4, '0'));
+                    let mask = Array.from(this.getValueFromParamRef(args[1]).toString().padStart(4, '0')).map(Number);
+                    let dest = this.getRegisterFromParamRef(args[2]);
                     let swizArray = [];
                     for (let swizIndex of mask) {
                         if (swizIndex === 0) {
@@ -253,24 +273,24 @@ export default class EXA {
 
     runStep() {
         // this.validateState();
-        // console.log(`pc: ${this.pc}, prl: ${this.program.body.length}`);
-        if (this.pc >= this.program.body.length) {
+        // console.log(`pc: ${this.pc}, prl: ${this.program.instructions.length}`);
+        if (this.pc >= this.program.instructions.length) {
             this.halted = true;
             return;
         }
-        let currentInstr = this.program.body[this.pc];
+        let currentInstr = this.program.instructions[this.pc];
         this.processInstruction(currentInstr);
         this.pc++;
         this.cycleCount++;
     }
 
-    runUntil(lineNum) {
+    runUntil(lineNum: number) {
         while (this.pc <= lineNum - 1) {
             this.runStep();
         }
     }
 
-    runUntilCycle(cycleNum) {
+    runUntilCycle(cycleNum: number) {
         while (!this.halted && this.cycleCount < cycleNum) {
             this.runStep();
         }
@@ -305,12 +325,15 @@ export default class EXA {
 }
 
 class EXARegister {
+    private value: string | number;
+    private maxStringLength: number;
+
     constructor(value = 0) {
         this.value = value;
         this.maxStringLength = 500; // todo change to real maxlen
     }
 
-    isValid(value) {
+    isValid(value: string | number) {
         if (typeof value === "number") {
             return -9999 < value && value < 9999;
         } else if (typeof value === "string") {
@@ -318,18 +341,18 @@ class EXARegister {
         }
     }
 
-    setValue(newVal) {
+    setValue(newVal: string | number) {
         if (this.isValid(newVal)) {
             this.value = newVal;
         } else {
-            throw new Error("Invalid value " + newVal);
+            throw new Error("Tried to set an invalid value " + newVal + "to a register");
         }
     }
 
 
     getValue() {
         if (typeof this.value === "number") {
-            return parseInt(this.value);
+            return parseInt(String(this.value)); // typescript complains if this is not wrapped with String(...) so...
         } else {
             return this.value;
         }
