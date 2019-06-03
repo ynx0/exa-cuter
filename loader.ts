@@ -2,7 +2,7 @@ import fs from "fs";
 import * as path from "path";
 import Program from "./parse/ast/Program";
 import Parser from "./parse/parser";
-
+import zip from "lodash-es/zip"
 
 let parser = new Parser();
 class Loader {
