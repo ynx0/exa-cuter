@@ -2,22 +2,26 @@ import fs from "fs";
 import * as path from "path";
 import Program from "./parse/ast/Program";
 import Parser from "./parse/parser";
-import zip from "lodash-es/zip"
+import _ from "lodash-es";
 
 let parser = new Parser();
 class Loader {
 
-    private loadedPrograms: Array<{id: string, prg: Program}>; // the program id is its file name.
+    private loadedPrograms: {[key:string]: Program}; // the program id is its file name.
+    // structure: {
+    //  <id>: <program>,
+    //  <id>: <program>,
+    // }
     public static TEST_PROGRAM_DIR = './programs/test/';
     public static PASSING_PROGRAMS_DIR = Loader.TEST_PROGRAM_DIR + 'should-pass';
     public static FAILING_PROGRAMS_DIR = Loader.TEST_PROGRAM_DIR + 'should-fail';
 
     constructor() {
-        this.loadedPrograms = [];
+        this.loadedPrograms = {};
     }
 
     isLoaded(targetProgramID: string) {
-        for (let program of this.loadedPrograms) {
+        for (let program of _.values(this.loadedPrograms)) {
             if (program.id === targetProgramID) {
                 return true;
             }
@@ -25,13 +29,27 @@ class Loader {
         return false;
     }
 
-    loadProgramsFromDirectory(dirPath: string) {
+    loadProgramsFromDirectory(dirPath: string): void {
         // TODO support should-fail programs
         let fileNames = Loader.getProgramNames(dirPath);
-        let programStrings = Loader.readProgramFiles(dirPath, fileNames);
+        let nonLoadedFileNames = [];
+
+        for (let fileName of fileNames) {
+            if (!this.isLoaded(fileName)) {
+                nonLoadedFileNames.push(fileName);
+            }
+        }
+        if (nonLoadedFileNames === []) {
+            return; // there are no programs that haven't been already loaded, exit early
+        }
+
+        let programStrings = Loader.readProgramFiles(dirPath, nonLoadedFileNames);
         let compiledOutput = Loader.compilePrograms(programStrings);
+
+
         let programs = [];
-        _.zip()
+        programs = _.zip(fileNames, compiledOutput);
+        console.log()
     }
 
     loadProgram(filePath: string) {
