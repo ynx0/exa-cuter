@@ -12,35 +12,26 @@ let fileNames: Array<string> = [];
 let testStrings: Array<string> = [];
 let testCases: Array<Program> = [];
 
+let ProgramLoader = new Loader();
 
-test.before('Initialize Test Cases', t => {
-    // reads all files in a directory and appends their names into an array
+
+test.before('Initialize and Compile Test Cases', t => {
+
     let results;
 
     perf.start();
-    fileNames = Loader.getProgramNames(Loader.PASSING_PROGRAMS_DIR);
-    testStrings = Loader.readProgramFiles(Loader.PASSING_PROGRAMS_DIR, fileNames);
+    ProgramLoader.loadProgramsFromDirectory(Loader.TEST_PROGRAM_DIR);
     results = perf.stop();
 
-    t.log(`Initialized ${fileNames.length} test cases in ${results.time.toFixed(1)} ms`)
+    t.log(`Initialized ${ProgramLoader.getProgramList().length} test cases in ${results.time.toFixed(1)} ms`)
 
 });
 
-test('File Names have been populated', t => {
-    t.assert(fileNames.length > 0);
-});
-
-test('Test Programs Compile', t => {
-    let res;
-
-    perf.start();
-    testCases = Loader.compilePrograms(testStrings);
-    res = perf.stop();
-
-    t.assert(testStrings.length === testCases.length);
-    t.log(`Successfully Compiled ${testStrings.length} cases in ${res.preciseWords}`)
-
+test('Successfully Loaded Programs', t => {
+    t.assert(ProgramLoader.getProgramList().length > 0);
 });
 
 
-test.todo('Actually Test `should-fail` cases');
+
+
+// test.todo('Actually Test `should-fail` cases');

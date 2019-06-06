@@ -4,11 +4,9 @@ import Register from "../parse/ast/Register";
 import EXANumber from "../parse/ast/EXANumber";
 import Instruction from "../parse/ast/Instruction";
 import util from "util";
-
-enum CommMode {
-    LOCAL = "LOCAL",
-    GLOBAL = "GLOBAL"
-}
+import CommMode from "./CommMode";
+import EXARegister from "./EXARegister";
+import EXAState from "./EXAState";
 
 enum Instructions {
     NOOP = "NOOP",
@@ -110,7 +108,7 @@ export default class EXA {
     getRegisterFromParamRef(paramRef: Register): EXARegister {
 
         let rawRegisterReference = paramRef.getValue();
-        console.log(rawRegisterReference);
+        // console.log(rawRegisterReference);
         switch (rawRegisterReference) {
             case AST.LocalRegisters.X:
                 return this.X;
@@ -306,7 +304,6 @@ export default class EXA {
         }
     }
 
-
     validateState() {
         let stateChecks = [
             this.pc > 0,
@@ -322,45 +319,20 @@ export default class EXA {
             }
         });
     }
+
+    captureState(): EXAState  {
+        // aw man i really wish nodejs supported es6 property shorthand init
+        return {
+            id: this.id,
+            pc: this.pc,
+            cycleCount: this.cycleCount,
+            program: this.program,
+            halted: this.halted,
+            blocked: this.blocked,
+            mode: this.mode,
+            labelMap: this.labelMap,
+            X: this.X,
+            T: this.T,
+        }
+    }
 }
-
-class EXARegister {
-    private value: string | number;
-    private maxStringLength: number;
-
-    constructor(value = 0) {
-        this.value = value;
-        this.maxStringLength = 500; // todo change to real maxlen
-    }
-
-    isValid(value: string | number) {
-        if (typeof value === "number") {
-            return -9999 < value && value < 9999;
-        } else if (typeof value === "string") {
-            return value.length < this.maxStringLength;
-        }
-    }
-
-    setValue(newVal: string | number) {
-        if (this.isValid(newVal)) {
-            this.value = newVal;
-        } else {
-            throw new Error("Tried to set an invalid value " + newVal + "to a register");
-        }
-    }
-
-
-    getValue() {
-        if (typeof this.value === "number") {
-            return parseInt(String(this.value)); // typescript complains if this is not wrapped with String(...) so...
-        } else {
-            return this.value;
-        }
-    }
-
-    toString() {
-        return `EXARegister {${this.value}}`
-    }
-
-}
-

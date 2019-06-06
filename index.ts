@@ -3,11 +3,16 @@
 import EXA from "./sim/EXA";
 import Loader from "./loader";
 
+// todo make loader a singleton
+let ProgramLoader = new Loader();
+ProgramLoader.loadProgramsFromDirectory(Loader.PASSING_PROGRAMS_DIR);
 
-let compiledProgram = parser.getProgramAST(program6);
+let programID: string = ProgramLoader.getProgramList()[0];
+let program = ProgramLoader.getLoadedProgram(programID);
 
-let XA = new EXA(compiledProgram);
-XA.runUntilCycle(5);
+
+let XA = new EXA(program);
+XA.run();
 
 
 console.log(XA);

@@ -6,6 +6,7 @@ import AST from "./ast/AST";
 import {Action} from "ohm-js";
 import Instructions from "./ast/Instructions";
 import Registers from "./ast/Registers";
+import Grammar from "./exa_grammar";
 
 type ArityMap = {[key: string] :number}
 
@@ -61,7 +62,7 @@ export default class Parser {
     private actionMap: ohm.ActionDict;
 
     constructor() {
-        this.parser = ohm.grammar(fs.readFileSync(path.join(__dirname, "exa_grammar.ohm")).toString());
+        this.parser = ohm.grammar(Grammar.GRAMMAR_STRING);
         this.semantics = this.parser.createSemantics();
         this.actionMap = {
             Program(body) {

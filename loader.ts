@@ -2,16 +2,13 @@ import fs from "fs";
 import * as path from "path";
 import Program from "./parse/ast/Program";
 import Parser from "./parse/parser";
-import _ from "lodash-es";
+import _ from "lodash";
 
 let parser = new Parser();
 class Loader {
 
-    private loadedPrograms: {[key:string]: Program}; // the program id is its file name.
-    // structure: {
-    //  <id>: <program>,
-    //  <id>: <program>,
-    // }
+    private loadedPrograms: {[key:string]: {id: string, prg: Program}}; // the program id is its file name.
+
     public static TEST_PROGRAM_DIR = './programs/test/';
     public static PASSING_PROGRAMS_DIR = Loader.TEST_PROGRAM_DIR + 'should-pass';
     public static FAILING_PROGRAMS_DIR = Loader.TEST_PROGRAM_DIR + 'should-fail';
@@ -20,18 +17,100 @@ class Loader {
         this.loadedPrograms = {};
     }
 
-    isLoaded(targetProgramID: string) {
-        for (let program of _.values(this.loadedPrograms)) {
-            if (program.id === targetProgramID) {
+    private static isValidFile(filename: string): boolean {
+        return filename.endsWith('.exa');
+    }
+
+    private static getFileNameFromPath(filepath: string): string {
+        return path.basename(filepath, path.extname(filepath)) + path.extname(filepath);
+    }
+
+    public isLoaded(targetProgramID: string): boolean {
+        for (let programID of _.keys(this.loadedPrograms)) {
+            if (programID === targetProgramID) {
                 return true;
             }
         }
         return false;
     }
 
-    loadProgramsFromDirectory(dirPath: string): void {
+    public getProgramList(): Array<string> {
+        return _.keys(this.loadedPrograms);
+    }
+    public getLoadedPrograms(): Array<Program> {
+        // inspired by https://stackoverflow.com/a/28354808/3807967
+        return _.values(this.loadedPrograms).map(program => program.prg);
+    }
+
+
+    private static readProgram(filePath: string): string {
+        let fn = Loader.getFileNameFromPath(filePath);
+        if(!Loader.isValidFile(fn)) throw new Error(`Invalid Program Filename: ${fn}`);
+        return fs.readFileSync(filePath, 'utf-8');
+    }
+
+    public static compileProgram(programText: string): Program {
+        return parser.getProgramAST(programText)
+    }
+
+    /**
+     * This method loads a single program into the cache
+     * @param filePath
+     * @return success - whether or not the program was loaded
+     */
+    public loadProgram(filePath: string): boolean {
+        let fileName = Loader.getFileNameFromPath(filePath);
+        if (this.isLoaded(fileName)) {
+            console.warn(`WARNING: Program: ${fileName} has already been loaded`);
+            return false;
+        }
+        let programText = Loader.readProgram(filePath);
+        this.loadedPrograms[fileName] = {id: fileName, prg: Loader.compileProgram(programText)};
+        return true;
+    }
+
+    public getLoadedProgram(programID: string): Program {
+        for (let program of _.values(this.loadedPrograms)) {
+            if (program.id === programID) {
+                return program.prg;
+            }
+        }
+        throw new Error(`Invalid ProgramID: '${programID}' given.`)
+    }
+
+    private static getProgramNames(directory: string): Array<string> {
+        let allFileNames =  fs.readdirSync(directory);
+        return allFileNames.filter(f => Loader.isValidFile(f));
+    }
+
+    private static readProgramFiles(baseDir: string, programNames: Array<string>): Array<string> {
+        let programStrings: Array<string> = [];
+
+        // reads each program file, converts file to string, pushes it to result array
+        programNames.forEach(programName => {
+            let fileContents = Loader.readProgram(path.join(baseDir, programName));
+            programStrings.push(fileContents);
+        });
+        return programStrings;
+    }
+
+    public static compilePrograms(programStrings: Array<string>): Array<Program> {
+        let programs: Array<Program> = [];
+        programStrings.forEach(program => {
+            programs.push(Loader.compileProgram(program));
+        });
+        return programs;
+    }
+
+    /**
+     *
+     * @param dirPath
+     * @return success
+     */
+    // TODO improve success or whatever
+    public loadProgramsFromDirectory(dirPath: string): boolean {
         // TODO support should-fail programs
-        let fileNames = Loader.getProgramNames(dirPath);
+        let fileNames: string[] = Loader.getProgramNames(dirPath);
         let nonLoadedFileNames = [];
 
         for (let fileName of fileNames) {
@@ -40,48 +119,18 @@ class Loader {
             }
         }
         if (nonLoadedFileNames === []) {
-            return; // there are no programs that haven't been already loaded, exit early
+            return true; // there are no programs that haven't been already loaded, exit early and successfully
         }
 
         let programStrings = Loader.readProgramFiles(dirPath, nonLoadedFileNames);
         let compiledOutput = Loader.compilePrograms(programStrings);
 
-
-        let programs = [];
-        programs = _.zip(fileNames, compiledOutput);
-        console.log()
-    }
-
-    loadProgram(filePath: string) {
-        let fileName = path.basename(filePath, path.extname(filePath));
-        if (this.isLoaded(fileName)) {
-            console.warn(`WARNING: Program: ${fileName} has already been loaded`)
+        for (let i = 0; i < compiledOutput.length; i++) {
+            let filename = fileNames[i];
+            this.loadedPrograms[filename] = {id: filename, prg: compiledOutput[i]};
         }
+        return true;
     }
-
-    static getProgramNames(directory: string): Array<string> {
-        return fs.readdirSync(directory);
-    }
-
-    static readProgramFiles(baseDir: string, programNames: Array<string>): Array<string> {
-        let programStrings: Array<string> = [];
-
-        // reads each program file, converts file to string, pushes it to result array
-        programNames.forEach(programName => {
-            let fileContents = fs.readFileSync(path.join(baseDir, programName), 'utf-8');
-            programStrings.push(fileContents);
-        });
-        return programStrings;
-    }
-
-    static compilePrograms(programStrings: Array<string>): Array<Program> {
-        let programs: Array<Program> = [];
-        programStrings.forEach(program => {
-            programs.push(parser.getProgramAST(program));
-        });
-        return programs;
-    }
-
 
 }
 
