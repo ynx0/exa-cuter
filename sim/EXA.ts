@@ -35,8 +35,8 @@ export default class EXA {
     private blocked: boolean;
     private mode: CommMode;
     private labelMap: { [key: string]: number };
-    private X: EXARegister;
-    private T: EXARegister;
+    readonly X: EXARegister;
+    readonly T: EXARegister;
 
 
     constructor(program: Program) {
