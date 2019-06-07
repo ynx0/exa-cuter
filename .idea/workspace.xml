@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31e4dbb4-f1a5-4fec-93ee-16c26c10b1ed" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/util/profiler.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/programs/test/should-pass/swiz2.exa" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/programs/test/should-pass/swiz3.exa" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/programs/test/should-pass/swiz4.exa" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/exa-tester.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/exa-tester.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/loader.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sim/EXA.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sim/EXA.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sim/SimUtils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/SimUtils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sim/type/EXARegister.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sim/type/EXARegister.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -26,37 +23,9 @@
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/util/loader.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="617">
-                  <caret line="83" column="68" selection-start-line="83" selection-start-column="68" selection-end-line="83" selection-end-column="68" />
-                  <folding>
-                    <element signature="e#0#20#0" expanded="true" />
-                    <element signature="n#!!block;n#isLoaded#0;n#Loader#0" />
-                    <element signature="n#!!block;n#getProgramList#0;n#Loader#0" />
-                    <element signature="n#!!block;n#compileProgram#0;n#Loader#0" />
-                    <element signature="n#!!block;n#loadProgram#0;n#Loader#0" />
-                    <element signature="n#!!block;n#getLoadedProgram#0;n#Loader#0" />
-                    <element signature="n#!!block;n#readProgramFiles#0;n#Loader#0" />
-                    <element signature="n#!!block;n#compilePrograms#0;n#Loader#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/util/profiler.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="360">
-                  <caret line="15" column="73" selection-start-line="15" selection-start-column="73" selection-end-line="15" selection-end-column="73" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/sim/type/EXARegister.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="161">
+                <state relative-caret-position="432">
                   <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
                   <folding>
                     <element signature="e#0#34#0" expanded="true" />
@@ -68,8 +37,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/sim/EXA.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="175">
-                  <caret line="266" column="33" selection-start-line="266" selection-start-column="33" selection-end-line="266" selection-end-column="33" />
+                <state relative-caret-position="720">
+                  <caret line="258" column="40" selection-start-line="258" selection-start-column="40" selection-end-line="258" selection-end-column="40" />
                   <folding>
                     <element signature="e#0#43#0" expanded="true" />
                     <element signature="e#6697#7832#0" />
@@ -79,22 +48,22 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/util/SimUtils.ts">
+            <entry file="file://$PROJECT_DIR$/index.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+                <state relative-caret-position="216">
+                  <caret line="9" column="57" selection-start-line="9" selection-start-column="57" selection-end-line="9" selection-end-column="57" />
+                  <folding>
+                    <element signature="e#115#143#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/index.ts">
+            <entry file="file://$PROJECT_DIR$/programs/test/should-pass/swiz4.exa">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="168">
-                  <caret line="7" column="33" lean-forward="true" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
-                  <folding>
-                    <element signature="e#115#143#0" expanded="true" />
-                  </folding>
+                <state>
+                  <caret column="8" selection-start-column="8" selection-end-column="8" />
                 </state>
               </provider>
             </entry>
@@ -112,11 +81,38 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/programs/test/should-pass/logic2.exa">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
+                <state relative-caret-position="144">
+                  <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/programs/test/should-pass/swiz1.exa">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="24">
+                  <caret line="1" selection-start-line="1" selection-end-line="1" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/programs/test/should-pass/swiz3.exa">
+              <provider selected="true" editor-type-id="text-editor">
+                <state>
+                  <caret column="16" selection-start-column="16" selection-end-column="16" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/programs/test/should-pass/swiz2.exa">
+              <provider selected="true" editor-type-id="text-editor">
+                <state>
+                  <caret column="16" selection-start-column="16" selection-end-column="16" />
                 </state>
               </provider>
             </entry>
@@ -152,6 +148,7 @@
       <find>console.error</find>
       <find>exa.captureState()</find>
       <find>max_c</find>
+      <find>swiz</find>
     </findStrings>
     <replaceStrings>
       <replace>=</replace>
@@ -165,10 +162,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/parse/Program.ts" />
-        <option value="$PROJECT_DIR$/parse/Parameter.ts" />
-        <option value="$PROJECT_DIR$/parse/Instruction.ts" />
-        <option value="$PROJECT_DIR$/parse/Instructions.ts" />
         <option value="$PROJECT_DIR$/parse/Registers.ts" />
         <option value="$PROJECT_DIR$/parse/ast/LocalRegisters.ts" />
         <option value="$PROJECT_DIR$/parse/Register.ts" />
@@ -209,12 +202,16 @@
         <option value="$PROJECT_DIR$/parse/ast/TestExpression.ts" />
         <option value="$PROJECT_DIR$/sim/SimUtils.ts" />
         <option value="$PROJECT_DIR$/parse/ast/Instruction.ts" />
-        <option value="$PROJECT_DIR$/index.ts" />
         <option value="$PROJECT_DIR$/loader.ts" />
         <option value="$PROJECT_DIR$/util/loader.ts" />
         <option value="$PROJECT_DIR$/util/profiler.ts" />
         <option value="$PROJECT_DIR$/util/SimUtils.ts" />
         <option value="$PROJECT_DIR$/sim/type/EXARegister.ts" />
+        <option value="$PROJECT_DIR$/programs/test/should-pass/logic2.exa" />
+        <option value="$PROJECT_DIR$/programs/test/should-pass/swiz2.exa" />
+        <option value="$PROJECT_DIR$/programs/test/should-pass/swiz3.exa" />
+        <option value="$PROJECT_DIR$/index.ts" />
+        <option value="$PROJECT_DIR$/programs/test/should-pass/swiz4.exa" />
         <option value="$PROJECT_DIR$/sim/EXA.ts" />
       </list>
     </option>
@@ -249,12 +246,20 @@
             <path>
               <item name="exa-cuter" type="b2602c69:ProjectViewProjectNode" />
               <item name="exa-cuter" type="462c0819:PsiDirectoryNode" />
-              <item name="sim" type="462c0819:PsiDirectoryNode" />
+              <item name="programs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="exa-cuter" type="b2602c69:ProjectViewProjectNode" />
               <item name="exa-cuter" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
+              <item name="programs" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exa-cuter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exa-cuter" type="462c0819:PsiDirectoryNode" />
+              <item name="programs" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="should-pass" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -347,7 +352,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58604000" />
+    <option name="totallyTimeSpent" value="60096000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -375,6 +380,29 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18545838" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="npm" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32977587" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34044823" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3991462" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Tool Output" order="9" />
+      <window_info anchor="bottom" id="TypeScript" order="10" weight="0.32977587" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.33724654" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="ANTLR Preview" order="13" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -397,10 +425,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/arg/index.js" />
-    <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.es2017.string.d.ts" />
-    <entry file="file://$PROJECT_DIR$/node_modules/ohm-js/src/Grammar.js" />
-    <entry file="file://$PROJECT_DIR$/node_modules/execution-time/examples/simple.js" />
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/NodeJS/lib/NodeJS.jar!/com/jetbrains/nodejs/packageJson/packageJsonSchema.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
@@ -418,20 +442,6 @@
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/programs/test/should-pass/loop1.exa">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/programs/test/should-pass/swiz1.exa">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
@@ -466,9 +476,6 @@
           <caret line="100" column="13" selection-start-line="100" selection-start-column="13" selection-end-line="100" selection-end-column="13" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/ohm-js/index.d.ts">
       <provider selected="true" editor-type-id="text-editor">
@@ -597,24 +604,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parse/ast/GrammarInstructions.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="25" selection-start-column="25" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parse/ast/Operations.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="5" selection-start-column="5" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sim/type/InstructionNames.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -662,27 +655,69 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/programs/test/should-pass/logic2.exa">
+    <entry file="file://$PROJECT_DIR$/util/profiler.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
+        <state relative-caret-position="360">
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.ts">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/SimUtils.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="7" column="33" lean-forward="true" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
-          <folding>
-            <element signature="e#115#143#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="240">
+          <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/programs/test/should-pass/loop1.exa">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/programs/test/should-pass/logic2.exa">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/programs/test/should-pass/swiz1.exa">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sim/type/InstructionNames.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parse/ast/GrammarInstructions.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/sim/EXA.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/util/loader.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="617">
-          <caret line="83" column="68" selection-start-line="83" selection-start-column="68" selection-end-line="83" selection-end-column="68" />
+        <state relative-caret-position="401">
+          <caret line="58" column="37" selection-start-line="58" selection-start-column="37" selection-end-line="58" selection-end-column="37" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
             <element signature="n#!!block;n#isLoaded#0;n#Loader#0" />
@@ -696,23 +731,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/profiler.ts">
+    <entry file="file://$PROJECT_DIR$/programs/test/should-pass/swiz3.exa">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="15" column="73" selection-start-line="15" selection-start-column="73" selection-end-line="15" selection-end-column="73" />
+        <state>
+          <caret column="16" selection-start-column="16" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/SimUtils.ts">
+    <entry file="file://$PROJECT_DIR$/programs/test/should-pass/swiz2.exa">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+        <state>
+          <caret column="16" selection-start-column="16" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sim/type/EXARegister.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
+        <state relative-caret-position="432">
           <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
@@ -720,10 +755,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="9" column="57" selection-start-line="9" selection-start-column="57" selection-end-line="9" selection-end-column="57" />
+          <folding>
+            <element signature="e#115#143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/programs/test/should-pass/swiz4.exa">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="8" selection-start-column="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sim/EXA.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="266" column="33" selection-start-line="266" selection-start-column="33" selection-end-line="266" selection-end-column="33" />
+        <state relative-caret-position="720">
+          <caret line="258" column="40" selection-start-line="258" selection-start-column="40" selection-end-line="258" selection-end-column="40" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
             <element signature="e#6697#7832#0" />

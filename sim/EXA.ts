@@ -238,21 +238,25 @@ export default class EXA {
                     // the reason for reverse is because the swiz instruction operates from right to left. For example
                     // in the number [1 3 5 7], the mask of `4` translates to the digit '1'
                     //                4 3 2 1
-                    let number = Array.from(this.getValueFromParamRef(args[0] as Register).toString().padStart(4, '0'));
-                    let mask = Array.from(this.getValueFromParamRef(args[1] as Register).toString().padStart(4, '0')).map(Number);
+
+                    let mask = SimUtils.castValueToNumber(this.getValueFromParamRef(args[1] as Register));
+                    let number = SimUtils.castValueToNumber(this.getValueFromParamRef(args[0] as Register));
+                    let resultSign = Math.sign(mask * number);
+
+                    let numArray: Array<string> = Array.from(number.toString().padStart(4, '0'));
+                    let maskArray: Array<number> = Array.from(mask.toString().padStart(4, '0')).map(Number);
                     let dest = this.getRegisterFromParamRef(args[2] as Register);
                     let swizArray = [];
-                    for (let swizIndex of mask) {
+                    for (let swizIndex of maskArray) {
                         if (swizIndex === 0) {
                             swizArray.push(0);
                         } else {
-                            swizArray.push(number[swizIndex - 1]);
+                            swizArray.push(numArray[4 - swizIndex]);
                         }
                     }
-                    let finalValue = parseInt(swizArray.join().replace(/,/g, ''));
-                    console.log(`SWIZ: ${util.inspect(number)} ${util.inspect(mask)} ${finalValue} ${dest}`);
+                    let finalValue = resultSign * parseInt(swizArray.join().replace(/,/g, ''));
+                    // console.log(`SWIZ: ${util.inspect(numArray)} ${util.inspect(maskArray)} ${finalValue} ${dest}`);
                     dest.setValue(finalValue);
-                    console.log(`Dest ${finalValue} is now ${dest.getValue()}`)
                 })();
                 break;
 

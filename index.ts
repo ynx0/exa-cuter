@@ -7,7 +7,7 @@ import Loader from "./util/loader";
 let ProgramLoader = new Loader();
 ProgramLoader.loadProgramsFromDirectory(Loader.PASSING_PROGRAMS_DIR);
 
-let programID: string = ProgramLoader.getProgramList()[5];
+let programID: string = ProgramLoader.getProgramList()[10];
 let program = ProgramLoader.getLoadedProgram(programID);
 
 
