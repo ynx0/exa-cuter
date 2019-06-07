@@ -1,7 +1,7 @@
 import fs from "fs";
 import * as path from "path";
-import Program from "./parse/ast/Program";
-import Parser from "./parse/parser";
+import Program from "../parse/ast/Program";
+import Parser from "../parse/parser";
 import _ from "lodash";
 
 let parser = new Parser();
@@ -79,8 +79,9 @@ class Loader {
     }
 
     private static getProgramNames(directory: string): Array<string> {
+        // sorting alphabetically ensures some sort of order
         let allFileNames =  fs.readdirSync(directory);
-        return allFileNames.filter(f => Loader.isValidFile(f));
+        return allFileNames.filter(f => Loader.isValidFile(f)).sort();
     }
 
     private static readProgramFiles(baseDir: string, programNames: Array<string>): Array<string> {

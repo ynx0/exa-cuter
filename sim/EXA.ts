@@ -8,11 +8,12 @@ import CommMode from "./type/CommMode";
 import EXARegister from "./type/EXARegister";
 import EXAState from "./type/EXAState";
 import Keywords from "./type/Keywords";
-import SimUtils from "./SimUtils";
+import SimUtils from "../util/SimUtils";
 import InstructionNames from "./type/InstructionNames";
 import TestExpression from "../parse/ast/TestExpression";
 import Parameter from "../parse/ast/Parameter";
 import Operations from "../parse/ast/Operations";
+
 
 
 
@@ -27,6 +28,7 @@ export default class EXA {
     private readonly labelMap: { [key: string]: number };
     public readonly X: EXARegister;
     public readonly T: EXARegister;
+    public static MAX_CYCLE_COUNT = 10_000;
 
 
     constructor(program: Program) {
@@ -78,7 +80,7 @@ export default class EXA {
         for (let lineNum in this.program.instructions) {
             let instr = this.program.instructions[lineNum];
             if (instr.name ===  InstructionNames.MARK) {
-                let labelName = instr.args[0]
+                let labelName = instr.args[0];
                 this.labelMap[labelName as string] = parseInt(lineNum);
             }
         }
@@ -88,7 +90,6 @@ export default class EXA {
     getValueFromParamRef(paramRef: Parameter): (Keywords | number) {
         // registers and numbers are both parameters
         if (paramRef instanceof AST.Register) {
-            // return (this[param.name]).getValue(); // THIS WORKS IN JS but not TS so :(((
             return this.getRegisterFromParamRef(paramRef).getValue();
         } else if (paramRef instanceof AST.EXANumber) {
             return paramRef.getValue();
@@ -102,7 +103,6 @@ export default class EXA {
     getRegisterFromParamRef(paramRef: Register): EXARegister {
 
         let rawRegisterReference = paramRef.getValue();
-        // console.log(rawRegisterReference);
         switch (rawRegisterReference) {
             case AST.LocalRegisters.X:
                 return this.X;
@@ -126,12 +126,9 @@ export default class EXA {
 
     processInstruction(instr: Instruction) {
 
-        // console.log(instr);
+
         let args = instr.args;
 
-
-        // todo handle overflow
-        // noinspection JSUnresolvedVariable
         switch (instr.name) {
 
             // the reason for the parenthesized closures in this switch statement is essentially namespacing/scoping lol
@@ -221,14 +218,14 @@ export default class EXA {
                     let dest = this.getRegisterFromParamRef(args[2] as Register);
                     // console.log(`${a} ${instr.name} ${b} -> ${dest}`);
                     if (instr.name === InstructionNames.ADDI) {
-                        dest.setValue(a + b);
+                        dest.setValue(SimUtils.clampNumber(a + b));
                     } else if (instr.name === InstructionNames.SUBI) {
-                        dest.setValue(a - b);
+                        dest.setValue(SimUtils.clampNumber(a - b));
                     } else if (instr.name === InstructionNames.MULI) {
-                        dest.setValue(a * b);
+                        dest.setValue(SimUtils.clampNumber(a * b));
                     } else if (instr.name === InstructionNames.DIVI) {
                         // enforce integer division
-                        dest.setValue(parseInt(String(a / b)));
+                        dest.setValue(parseInt(String(SimUtils.clampNumber(a / b))));
                     }
                 })();
                 break;
@@ -266,8 +263,8 @@ export default class EXA {
 
     runStep() {
         // this.validateState();
-        // console.log(`pc: ${this.pc}, prl: ${this.program.InstructionNames.length}`);
-        if (this.pc >= this.program.instructions.length) {
+        if (this.pc >= this.program.instructions.length
+        || this.cycleCount >= EXA.MAX_CYCLE_COUNT) {
             this.halted = true;
             return;
         }
@@ -295,6 +292,7 @@ export default class EXA {
                 this.runStep();
             } else {
                 // wait for environment to unblock?
+                console.log('Waiting to be unblocked');
             }
         }
     }

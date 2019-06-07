@@ -1,6 +1,6 @@
-import EXA from "./sim/EXA";
-import EXAState from "./sim/type/EXAState";
-import * as util from "util";
+import EXA from "../sim/EXA";
+import EXAState from "../sim/type/EXAState";
+import * as util from "";
 
 
 class ExaTester {

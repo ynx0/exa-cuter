@@ -2,7 +2,7 @@ import test from 'ava';
 import Program from "./parse/ast/Program";
 // @ts-ignore
 import execution_time from "execution-time";
-import Loader from "./loader";
+import Loader from "./util/loader";
 
 const perf = execution_time();
 

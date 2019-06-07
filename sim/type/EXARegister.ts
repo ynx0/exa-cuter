@@ -1,6 +1,9 @@
 import Keywords from "./Keywords";
 import EXAValue from "./EXAValue";
 
+// should this class, the exa register, clamp any incoming values or
+// should that be something that the simulation handles?
+// im gonna go with simulation for now, but we will see
 
 class EXARegister {
     private value: EXAValue;
@@ -13,7 +16,7 @@ class EXARegister {
 
     isValid(value: Keywords | number) {
         if (typeof value === "number") {
-            return -9999 < value && value < 9999;
+            return -9999 <= value && value <= 9999;
         } else if (value.constructor.name === "Array") {
             return value.length < this.maxKeywordsInArray;
         }
