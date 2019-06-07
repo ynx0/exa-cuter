@@ -1,4 +1,4 @@
-import Program from "../parse/ast/Program";
+import Program from "../../parse/ast/Program";
 import CommMode from "./CommMode";
 import EXARegister from "./EXARegister";
 

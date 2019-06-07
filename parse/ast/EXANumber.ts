@@ -1,11 +1,11 @@
 import Parameter from "./Parameter";
 
 class EXANumber extends Parameter {
-    private value: string;
+    private value: number;
 
-    constructor(num: any) {
+    constructor(num: string) {
         super();
-        this.value = num;
+        this.value = parseInt(num);
     }
 
     getValue() {

@@ -1,4 +1,4 @@
-import Instructions from "./Instructions";
+import GrammarInstructions from "./GrammarInstructions";
 import Registers from "./Registers";
 import Program from "./Program";
 import Parameter from "./Parameter";
@@ -12,7 +12,7 @@ import EXANumber from "./EXANumber";
 
 export default {
     Instruction,
-    Instructions,
+    Instructions: GrammarInstructions,
     Register,
     Registers,
     Parameter,

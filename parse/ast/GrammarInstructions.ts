@@ -1,4 +1,4 @@
-enum Instructions {
+enum GrammarInstructions {
     CopyInstr = "CopyInstr",
     SwizInstr = "SwizInstr",
     MarkInstr = "MarkInstr",
@@ -29,4 +29,4 @@ enum Instructions {
     LoopMacro = "LoopMacro"
 }
 
-export default Instructions;
+export default GrammarInstructions;

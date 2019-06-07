@@ -2,8 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31e4dbb4-f1a5-4fec-93ee-16c26c10b1ed" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/sim/SimUtils.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sim/error/CastError.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sim/type/EXAValue.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sim/type/InstructionNames.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sim/type/Keywords.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/lux.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/lux.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/exa-tester.ts" beforeDir="false" afterPath="$PROJECT_DIR$/exa-tester.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parse/ast/AST.ts" beforeDir="false" afterPath="$PROJECT_DIR$/parse/ast/AST.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parse/ast/EXANumber.ts" beforeDir="false" afterPath="$PROJECT_DIR$/parse/ast/EXANumber.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parse/ast/Instruction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/parse/ast/Instruction.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parse/ast/Instructions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/parse/ast/GrammarInstructions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parse/ast/TestExpression.ts" beforeDir="false" afterPath="$PROJECT_DIR$/parse/ast/TestExpression.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parse/parser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/parse/parser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sim/CommMode.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sim/type/CommMode.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sim/EXA.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sim/EXA.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sim/EXARegister.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sim/type/EXARegister.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sim/EXAState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sim/type/EXAState.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,20 +34,24 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/loader.ts">
+        <entry file="file://$PROJECT_DIR$/index.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="71" column="56" selection-start-line="71" selection-start-column="56" selection-end-line="71" selection-end-column="56" />
+            <state relative-caret-position="96">
+              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
               <folding>
-                <element signature="e#0#20#0" expanded="true" />
-                <element signature="n#!!block;n#isLoaded#0;n#Loader#0" />
-                <element signature="n#!!block;n#getProgramList#0;n#Loader#0" />
-                <element signature="n#!!block;n#compileProgram#0;n#Loader#0" />
-                <element signature="n#!!block;n#loadProgram#0;n#Loader#0" />
-                <element signature="n#!!block;n#getLoadedProgram#0;n#Loader#0" />
-                <element signature="n#!!block;n#getProgramNames#0;n#Loader#0" />
-                <element signature="n#!!block;n#readProgramFiles#0;n#Loader#0" />
-                <element signature="n#!!block;n#compilePrograms#0;n#Loader#0" />
+                <element signature="e#115#143#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sim/EXA.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="185">
+              <caret line="218" column="25" lean-forward="true" selection-start-line="218" selection-start-column="25" selection-end-line="218" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#43#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -49,13 +70,64 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sim/EXA.ts">
+        <entry file="file://$PROJECT_DIR$/parse/ast/Instruction.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1993">
-              <caret line="139" column="41" selection-start-line="139" selection-start-column="41" selection-end-line="139" selection-end-column="41" />
+            <state relative-caret-position="197">
+              <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
               <folding>
-                <element signature="e#0#43#0" expanded="true" />
+                <element signature="e#0#63#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/parse/ast/TestExpression.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/parse/ast/Parameter.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="24">
+              <caret line="1" column="30" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sim/SimUtils.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="7" column="10" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sim/type/EXAValue.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="48">
+              <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sim/error/CastError.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -84,6 +156,9 @@
       <find>console.log</find>
       <find>private</find>
       <find>exaregister</find>
+      <find>a =</find>
+      <find>Instructions</find>
+      <find>console.error</find>
     </findStrings>
     <replaceStrings>
       <replace>=</replace>
@@ -107,8 +182,6 @@
         <option value="$PROJECT_DIR$/parse/ast/Parameter.ts" />
         <option value="$PROJECT_DIR$/parse/ast/Operation.ts" />
         <option value="$PROJECT_DIR$/parse/ast/Operations.ts" />
-        <option value="$PROJECT_DIR$/parse/ast/TestExpression.ts" />
-        <option value="$PROJECT_DIR$/parse/ast/EXANumber.ts" />
         <option value="$PROJECT_DIR$/EXA.ts" />
         <option value="$PROJECT_DIR$/parse/ast/AST.ts" />
         <option value="$PROJECT_DIR$/parse/ast/Register.ts" />
@@ -126,18 +199,27 @@
         <option value="$PROJECT_DIR$/parse/exa_grammar.ohm" />
         <option value="$PROJECT_DIR$/parse/exa_grammar.json" />
         <option value="$PROJECT_DIR$/parse/exa_grammar.ts" />
-        <option value="$PROJECT_DIR$/parse/ast/Instruction.ts" />
         <option value="$PROJECT_DIR$/parse/parser.ts" />
         <option value="$PROJECT_DIR$/parse/ast/Program.ts" />
-        <option value="$PROJECT_DIR$/index.ts" />
         <option value="$PROJECT_DIR$/loader.ts" />
         <option value="$PROJECT_DIR$/exa-test.ts" />
         <option value="$PROJECT_DIR$/sim/CommMode.ts" />
-        <option value="$PROJECT_DIR$/sim/EXARegister.ts" />
         <option value="$PROJECT_DIR$/sim/EXAState.ts" />
         <option value="$PROJECT_DIR$/tsconfig.json" />
         <option value="$PROJECT_DIR$/exa-tester.ts" />
+        <option value="$PROJECT_DIR$/sim/EXARegister.ts" />
+        <option value="$PROJECT_DIR$/sim/type/EXAState.ts" />
+        <option value="$PROJECT_DIR$/sim/type/Keywords.ts" />
+        <option value="$PROJECT_DIR$/parse/ast/EXANumber.ts" />
+        <option value="$PROJECT_DIR$/sim/type/EXAValue.ts" />
+        <option value="$PROJECT_DIR$/sim/type/EXARegister.ts" />
+        <option value="$PROJECT_DIR$/sim/error/CastError.ts" />
+        <option value="$PROJECT_DIR$/sim/type/InstructionNames.ts" />
+        <option value="$PROJECT_DIR$/parse/ast/TestExpression.ts" />
+        <option value="$PROJECT_DIR$/sim/SimUtils.ts" />
         <option value="$PROJECT_DIR$/sim/EXA.ts" />
+        <option value="$PROJECT_DIR$/index.ts" />
+        <option value="$PROJECT_DIR$/parse/ast/Instruction.ts" />
       </list>
     </option>
   </component>
@@ -176,7 +258,19 @@
             <path>
               <item name="exa-cuter" type="b2602c69:ProjectViewProjectNode" />
               <item name="exa-cuter" type="462c0819:PsiDirectoryNode" />
+              <item name="parse" type="462c0819:PsiDirectoryNode" />
+              <item name="ast" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exa-cuter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exa-cuter" type="462c0819:PsiDirectoryNode" />
               <item name="sim" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exa-cuter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exa-cuter" type="462c0819:PsiDirectoryNode" />
+              <item name="sim" type="462c0819:PsiDirectoryNode" />
+              <item name="type" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -199,6 +293,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lux\WebstormProjects\exa-cuter\sim\type" />
       <recent name="C:\Users\lux\WebstormProjects\exa-cuter\programs\test\pass" />
       <recent name="C:\Users\lux\WebstormProjects\exa-cuter\sim" />
       <recent name="C:\Users\lux\WebstormProjects\exa-cuter\parse\ast" />
@@ -267,19 +362,19 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51844000" />
+    <option name="totallyTimeSpent" value="55759000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18545838" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18545838" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="npm" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32977587" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.34044823" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34044823" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3991462" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -317,27 +412,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="306" column="4" selection-start-line="306" selection-start-column="4" selection-end-line="306" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parse/ast/LocalRegisters.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="7" column="30" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parse/ast/Instructions.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="18" lean-forward="true" selection-start-column="18" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parse/ast/Registers.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -345,40 +419,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parse/ast/Operations.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parse/ast/TestExpression.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parse/ast/EXANumber.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/arg/index.js" />
     <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.es2017.string.d.ts" />
     <entry file="file://$PROJECT_DIR$/node_modules/ohm-js/src/Grammar.js" />
-    <entry file="file://$PROJECT_DIR$/parse/ast/Parameter.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="1" column="30" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/execution-time/examples/simple.js" />
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/NodeJS/lib/NodeJS.jar!/com/jetbrains/nodejs/packageJson/packageJsonSchema.json">
       <provider selected="true" editor-type-id="text-editor">
@@ -524,42 +567,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sim/CommMode.ts">
+    <entry file="file://$PROJECT_DIR$/sim/type/CommMode.ts">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-          <folding>
-            <element signature="e#115#143#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parse/ast/Instruction.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sim/EXARegister.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="984">
-          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sim/EXAState.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tsconfig.json">
       <provider selected="true" editor-type-id="text-editor">
@@ -604,6 +613,92 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sim/type/EXAState.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sim/type/Keywords.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="29" lean-forward="true" selection-start-column="29" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sim/type/EXARegister.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="5" column="27" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parse/ast/EXANumber.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="16" column="25" lean-forward="true" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sim/error/CastError.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sim/type/EXAValue.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parse/ast/Parameter.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="1" column="30" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parse/ast/GrammarInstructions.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="25" selection-start-column="25" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parse/ast/Operations.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="5" selection-start-column="5" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sim/type/InstructionNames.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+          <folding>
+            <element signature="e#115#143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/exa-tester.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -614,12 +709,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sim/SimUtils.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" column="10" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sim/EXA.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1993">
-          <caret line="139" column="41" selection-start-line="139" selection-start-column="41" selection-end-line="139" selection-end-column="41" />
+        <state relative-caret-position="185">
+          <caret line="218" column="25" lean-forward="true" selection-start-line="218" selection-start-column="25" selection-end-line="218" selection-end-column="25" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parse/ast/TestExpression.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parse/ast/Instruction.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#63#0" expanded="true" />
           </folding>
         </state>
       </provider>

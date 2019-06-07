@@ -4,7 +4,7 @@ import fs from "fs";
 
 import AST from "./ast/AST";
 import {Action} from "ohm-js";
-import Instructions from "./ast/Instructions";
+import GrammarInstructions from "./ast/GrammarInstructions";
 import Registers from "./ast/Registers";
 import Grammar from "./exa_grammar";
 
@@ -12,7 +12,7 @@ type ArityMap = {[key: string] :number}
 
 
 // type ArityMap = {
-//     [key in Registers | Instructions]: number;
+//     [key in Registers | GrammarInstructions]: number;
 // };
 
 
@@ -136,7 +136,7 @@ export default class Parser {
         };
         // add all intermediate command semantics
         for (let instr in instructionMap) {
-            this.actionMap[instr] = Parser.makeInstr(<Instructions>instr, instructionMap);
+            this.actionMap[instr] = Parser.makeInstr(<GrammarInstructions>instr, instructionMap);
         }
         for (let reg in registerMap) {
             this.actionMap[reg] = Parser.makeInstr(<Registers>reg, registerMap);
@@ -150,7 +150,7 @@ export default class Parser {
         this.semantics.addOperation('tree', <ohm.ActionDict>this.actionMap);
     }
 
-    static makeInstr(instr: Instructions | Registers, map: ArityMap): Action {
+    static makeInstr(instr: GrammarInstructions | Registers, map: ArityMap): Action {
 
         // let has2Args = map[instr] > 1;
         // let has3Args = map[instr] > 2;

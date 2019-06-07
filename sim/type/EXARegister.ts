@@ -1,21 +1,25 @@
+import Keywords from "./Keywords";
+import EXAValue from "./EXAValue";
+
+
 class EXARegister {
-    private value: string | number;
-    private maxStringLength: number;
+    private value: EXAValue;
+    private readonly maxKeywordsInArray: number;
 
     constructor(value = 0) {
         this.value = value;
-        this.maxStringLength = 500; // todo change to real maxlen
+        this.maxKeywordsInArray = 500; // todo change to real maxlen
     }
 
-    isValid(value: string | number) {
+    isValid(value: Keywords | number) {
         if (typeof value === "number") {
             return -9999 < value && value < 9999;
-        } else if (typeof value === "string") {
-            return value.length < this.maxStringLength;
+        } else if (value.constructor.name === "Array") {
+            return value.length < this.maxKeywordsInArray;
         }
     }
 
-    setValue(newVal: string | number) {
+    setValue(newVal: Keywords | number) {
         if (this.isValid(newVal)) {
             this.value = newVal;
         } else {
