@@ -14,6 +14,10 @@ enum InstructionNames {
     HALT = "HALT",
     MODE = "MODE",
     NOTE = "NOTE",
+    MAKE = "MAKE",
+    GRAB = "GRAB",
+    VOID = "VOID",
+    DROP = "DROP",
 }
 
 export default InstructionNames;

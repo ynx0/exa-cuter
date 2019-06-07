@@ -1,7 +1,6 @@
 import EXAValue from "../sim/type/EXAValue";
-import CastError from "../sim/error/CastError";
-import Keywords from "../sim/type/Keywords";
-import EXANumber from "../parse/ast/EXANumber";
+import CastError from "../error/CastError";
+import Keyword from "../sim/type/Keyword";
 
 
 // todo figure out if this is necessary or if im just dumb with union types
@@ -12,7 +11,11 @@ class SimUtils {
     public static readonly MIN_NUMBER = -9999;
 
     static clampNumber(num: number): number {
-        return Math.min(Math.max(num, -9999), 9999)
+        return SimUtils.clampToRange(num, -9999, 9999);
+    }
+
+    static clampToRange(num: number, min: number, max: number): number {
+        return Math.min(Math.max(num, min), max);
     }
 
 
@@ -24,12 +27,21 @@ class SimUtils {
 
         return castResult
     }
-    static castValueToKeywords(exaVal: EXAValue): Keywords {
+
+    static castValueToKeywords(exaVal: EXAValue): Keyword {
         if (exaVal.constructor.name !== "Array") {
             throw new CastError(`Error: Tried to cast value: ${exaVal} to Keywords but failed`);
         }
 
-        return exaVal as Keywords;
+        return exaVal as Keyword;
+    }
+
+    // from https://stackoverflow.com/a/1527820
+
+    static getRandomInt(min: number, max: number): number {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
 

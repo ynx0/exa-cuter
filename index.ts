@@ -1,7 +1,7 @@
 // this file will export a bunch of stuff essentially. Right now it is gonna serve as an experimental entry point
 
-import EXA from "./sim/EXA";
-import Loader from "./util/loader";
+import EXA from "./src/sim/EXA";
+import Loader from "./src/util/loader";
 
 // todo make loader a singleton
 let ProgramLoader = new Loader();

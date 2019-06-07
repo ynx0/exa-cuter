@@ -1,8 +1,8 @@
 import test from 'ava';
-import Program from "./parse/ast/Program";
+import Program from "./src/parse/ast/Program";
 // @ts-ignore
 import execution_time from "execution-time";
-import Loader from "./util/loader";
+import Loader from "./src/util/loader";
 
 const perf = execution_time();
 

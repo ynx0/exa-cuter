@@ -1,6 +1,6 @@
 import Program from "../../parse/ast/Program";
 import CommMode from "./CommMode";
-import EXARegister from "./EXARegister";
+import EXARegister from "./register/EXARegister";
 
 interface EXAState {
     id: number,

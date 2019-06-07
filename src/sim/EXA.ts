@@ -1,23 +1,26 @@
 import Program from "../parse/ast/Program";
 import AST from "../parse/ast/AST";
 import Register from "../parse/ast/Register";
-import EXANumber from "../parse/ast/EXANumber";
 import Instruction from "../parse/ast/Instruction";
 import util from "util";
 import CommMode from "./type/CommMode";
-import EXARegister from "./type/EXARegister";
+import EXARegister from "./type/register/EXARegister";
 import EXAState from "./type/EXAState";
-import Keywords from "./type/Keywords";
 import SimUtils from "../util/SimUtils";
 import InstructionNames from "./type/InstructionNames";
 import TestExpression from "../parse/ast/TestExpression";
 import Parameter from "../parse/ast/Parameter";
 import Operations from "../parse/ast/Operations";
-
-
+import EXAValue from "./type/EXAValue";
+import EXAFileRegister from "./type/register/EXAFileRegister";
+import EXAMessageRegister from "./type/register/EXAMessageRegister";
+import Simulation from "./Simulation";
 
 
 export default class EXA {
+
+    public static MAX_CYCLE_COUNT = 1_000_000;
+
     private readonly id: number;
     private pc: number;
     private cycleCount: number;
@@ -28,10 +31,14 @@ export default class EXA {
     private readonly labelMap: { [key: string]: number };
     public readonly X: EXARegister;
     public readonly T: EXARegister;
-    public static MAX_CYCLE_COUNT = 10_000;
+    public readonly F: EXAFileRegister;
+    public readonly M: EXARegister;
+
+    private sim: Simulation;
+    private errorState: SimErrors | null;
 
 
-    constructor(program: Program) {
+    constructor(program: Program, sim: Simulation) {
 
         this.id = 0; // TODO make id (autoincremented thing?)
         this.pc = 0; // program counter. the line number of current executing program
@@ -43,6 +50,10 @@ export default class EXA {
         this.labelMap = {};
         this.X = new EXARegister();
         this.T = new EXARegister();
+        this.F = new EXAFileRegister();
+        this.M = new EXAMessageRegister();
+        this.sim = sim;
+        this.errorState = null;
         // todo support F and M registers
         // TODO refactor this to be shared in the parser?
 
@@ -50,6 +61,11 @@ export default class EXA {
         this.setupCoreDump();
     }
 
+    // todo better name
+    setErrorStateAndHalt(error: SimErrors): void {
+        this.errorState = error;
+        this.halted = true;
+    }
 
     setupCoreDump() {
         process.on('uncaughtException', (err: string | Error) => {
@@ -87,7 +103,7 @@ export default class EXA {
     }
 
     // when the method name contains something akin to the words "Reference" or "AST", it takes in an ast param, not a sim param
-    getValueFromParamRef(paramRef: Parameter): (Keywords | number) {
+    getValueFromParamRef(paramRef: Parameter): EXAValue {
         // registers and numbers are both parameters
         if (paramRef instanceof AST.Register) {
             return this.getRegisterFromParamRef(paramRef).getValue();
@@ -153,6 +169,8 @@ export default class EXA {
                     dest.setValue(newValue);
                 })();
                 break;
+
+            // MARK - Logic Processing
             case InstructionNames.JUMP:
                 (() => {
                     let label = args[0] as string;
@@ -208,6 +226,8 @@ export default class EXA {
                 })();
                 break;
 
+
+            // MARK - Arithmetic Processing
             case InstructionNames.ADDI:
             case InstructionNames.SUBI:
             case InstructionNames.MULI:
@@ -260,6 +280,26 @@ export default class EXA {
                 })();
                 break;
 
+            case InstructionNames.MAKE:
+                (() => {
+                    if (this.F.hasFile()) {
+                        this.setErrorStateAndHalt(SimErrors.CANNOT_GRAB_SECOND_FILE);
+                    }
+                    this.F.setFile(this.sim.createFile());
+                })();
+                break;
+
+            case InstructionNames.DROP:
+                (() => {
+                    if (!this.F.hasFile()) {
+                        this.setErrorStateAndHalt(SimErrors.NO_FILE_IS_HELD);
+                    }
+                    // must block if there is no space on the host for the file
+                    this.sim.requestFileDrop(this, this.F.getFile());
+                })();
+                break;
+
+
             default:
                 console.log("Unimplemented instruction: " + instr.name);
         }
@@ -267,11 +307,14 @@ export default class EXA {
 
     runStep() {
         // this.validateState();
-        if (this.pc >= this.program.instructions.length
-        || this.cycleCount >= EXA.MAX_CYCLE_COUNT) {
-            this.halted = true;
+        if (this.pc >= this.program.instructions.length) {
+            this.setErrorStateAndHalt(SimErrors.OUT_OF_INSTRUCTIONS);
             return;
         }
+        if (this.cycleCount >= EXA.MAX_CYCLE_COUNT) {
+            this.setErrorStateAndHalt(SimErrors.TOO_MANY_CYCLES);
+        }
+
         let currentInstr = this.program.instructions[this.pc];
         this.processInstruction(currentInstr);
         this.pc++;

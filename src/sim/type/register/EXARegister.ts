@@ -1,5 +1,4 @@
-import Keywords from "./Keywords";
-import EXAValue from "./EXAValue";
+import EXAValue from "../EXAValue";
 
 // should this class, the exa register, clamp any incoming values or
 // should that be something that the simulation handles?
@@ -7,22 +6,24 @@ import EXAValue from "./EXAValue";
 
 class EXARegister {
     private value: EXAValue;
-    private readonly maxKeywordsInArray: number;
+    private readonly maxKeywordLength: number;
 
     constructor(value = 0) {
         this.value = value;
-        this.maxKeywordsInArray = 500; // todo change to real maxlen
+        this.maxKeywordLength = 500; // todo change to real maxlen
     }
 
-    isValid(value: Keywords | number) {
+    isValid(value: EXAValue): boolean {
         if (typeof value === "number") {
             return -9999 <= value && value <= 9999;
-        } else if (value.constructor.name === "Array") {
-            return value.length < this.maxKeywordsInArray;
+        } else if (value.constructor.name === "string") {
+            return value.length < this.maxKeywordLength;
+        } else {
+            return false;
         }
     }
 
-    setValue(newVal: Keywords | number) {
+    setValue(newVal: EXAValue): void {
         if (this.isValid(newVal)) {
             this.value = newVal;
         } else {
@@ -31,7 +32,7 @@ class EXARegister {
     }
 
 
-    getValue() {
+    getValue(): EXAValue {
         if (typeof this.value === "number") {
             return parseInt(String(this.value)); // typescript complains if this is not wrapped with String(...) so...
         } else {
