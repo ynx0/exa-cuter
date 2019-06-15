@@ -1,10 +1,11 @@
-import Keyword from "./type/Keyword";
 import Keywords from "./type/Keywords";
+import EXAValue from "./type/EXAValue";
 
-class EXAFile {
+
+export class EXAFile {
 
     private readonly words: Keywords;
-    private readonly id: number;
+    private readonly id: EXAFileID;
     public static readonly NULL_FILE = new EXAFile(-1, []);
 
     constructor(id: number, words: Keywords) {
@@ -12,7 +13,7 @@ class EXAFile {
         this.words = words;
     }
 
-    getValueAt(cursorPosition: number): Keyword {
+    getValueAt(cursorPosition: number): EXAValue {
         return this.words[cursorPosition];
     }
 
@@ -27,6 +28,10 @@ class EXAFile {
     voidValueAt(cursorPosition: number): void {
         this.words.splice(cursorPosition, 1);
     }
+
+    setValueAt(cursorPosition: number, newVal: EXAValue) {
+        this.words.splice(cursorPosition, 1, newVal);
+    }
 }
 
-export default EXAFile;
+export type EXAFileID = number;

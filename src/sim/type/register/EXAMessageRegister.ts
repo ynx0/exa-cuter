@@ -1,5 +1,6 @@
 import EXARegister from "./EXARegister";
 import EXAValue from "../EXAValue";
+import {EXAResult} from "../../../util/EXAResult";
 
 class EXAMessageRegister extends EXARegister {
 
@@ -9,9 +10,9 @@ class EXAMessageRegister extends EXARegister {
 
     }
 
-    setValue(newVal: EXAValue) {
-        super.setValue(newVal);
-
+    setValue(newVal: EXAValue): EXAResult<boolean> {
+        // TODO Work out the message register
+        return super.setValue(newVal);
     }
 
     getValue(): EXAValue {

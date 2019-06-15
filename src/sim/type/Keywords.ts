@@ -1,5 +1,5 @@
-import Keyword from "./Keyword";
+import EXAValue from "./EXAValue";
 
-type Keywords = Array<Keyword>
+type Keywords = Array<EXAValue>
 
 export default Keywords;

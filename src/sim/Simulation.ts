@@ -1,16 +1,17 @@
 import Queue from "queue-fifo";
 
-import EXAFile from "./EXAFile";
+import {EXAFile, EXAFileID} from "./EXAFile";
 import Host from "./Host";
 import Link from "./Link";
 import HardwareRegister from "./HardwareRegister";
 import EXAMessage from "./type/EXAMessage";
 import EXA from "./EXA";
+import HashMap from "hashmap";
 
 class Simulation {
 
-    private files: Array<EXAFile>;
-    private hosts: Array<Host>; // todo move to hashmap by file id
+    private files: HashMap<EXAFileID, EXAFile>;
+    private hosts: HashMap<string, Host>; // todo move to hashmap by file id
     private links: Array<Link>;
     private hardwareRegisters: Array<HardwareRegister>;
     private globalMessageQueue: Queue<EXAMessage>;
@@ -18,8 +19,8 @@ class Simulation {
 
 
     constructor() {
-        this.files = [];
-        this.hosts = [];
+        this.files = new HashMap();
+        this.hosts = new HashMap();
         this.links = [];
         this.hardwareRegisters = [];
         this.globalMessageQueue = new Queue<EXAMessage>();
@@ -45,8 +46,8 @@ class Simulation {
      * @returns whether or not to block
      */
     requestFileDrop(requester: EXA, file: EXAFile): boolean {
-
-        let currHost = requester.getCurrentHostID();
+        throw new Error("UNIMPLEMENTED");
+        let currHost = this.hosts.get(requester.getCurrentHostID());
         // todo must block if no space and figure out how to do so
         if (currHost.isFull()) {
             throw new Error("Blocking Behaviour encountered, Implement");
@@ -54,6 +55,10 @@ class Simulation {
 
 
 
+    }
+
+    requestLinkToID(valueFromParamRef: number) {
+        throw new Error("UNIMPLEMENTED")
     }
 }
 

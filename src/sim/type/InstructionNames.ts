@@ -18,6 +18,9 @@ enum InstructionNames {
     GRAB = "GRAB",
     VOID = "VOID",
     DROP = "DROP",
+    LINK = "LINK",
+    HOST = "HOST",
+
 }
 
 export default InstructionNames;

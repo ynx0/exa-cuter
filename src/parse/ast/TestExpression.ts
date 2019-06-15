@@ -29,6 +29,11 @@ class TestExpression {
         this.param2 = param2;
     }
 
+    toString() {
+        return this.param1.toString() + ' ' + this.operation.toString() + ' ' + this.param2.toString();
+    }
+
+
 }
 
 export default TestExpression

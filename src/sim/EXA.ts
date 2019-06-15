@@ -15,7 +15,13 @@ import EXAValue from "./type/EXAValue";
 import EXAFileRegister from "./type/register/EXAFileRegister";
 import EXAMessageRegister from "./type/register/EXAMessageRegister";
 import Simulation from "./Simulation";
+import SimErrors from "./SimErrors";
 
+
+export type EXAOptions = {
+    commMode?: CommMode;
+    initialHostID?: string
+};
 
 export default class EXA {
 
@@ -28,6 +34,7 @@ export default class EXA {
     private halted: boolean;
     private readonly blocked: boolean;
     private mode: CommMode;
+    private hostID: string;
     private readonly labelMap: { [key: string]: number };
     public readonly X: EXARegister;
     public readonly T: EXARegister;
@@ -38,7 +45,7 @@ export default class EXA {
     private errorState: SimErrors | null;
 
 
-    constructor(program: Program, sim: Simulation) {
+    constructor(program: Program, sim: Simulation, options: EXAOptions) {
 
         this.id = 0; // TODO make id (autoincremented thing?)
         this.pc = 0; // program counter. the line number of current executing program
@@ -46,7 +53,8 @@ export default class EXA {
         this.program = program;
         this.halted = false;
         this.blocked = false;
-        this.mode = CommMode.GLOBAL;
+        this.mode = options.commMode || CommMode.GLOBAL;
+        this.hostID = options.initialHostID || 'RHIZOME';
         this.labelMap = {};
         this.X = new EXARegister();
         this.T = new EXARegister();
@@ -61,8 +69,13 @@ export default class EXA {
         this.setupCoreDump();
     }
 
+    public getCurrentHostID(): string {
+        return this.hostID;
+    }
+
     // todo better name
-    setErrorStateAndHalt(error: SimErrors): void {
+    // todo check if the access level makes sense
+    private setErrorStateAndHalt(error: SimErrors): void {
         this.errorState = error;
         this.halted = true;
     }
@@ -113,8 +126,6 @@ export default class EXA {
             throw new Error("Invalid paramRef given:" + util.inspect(paramRef));
         }
     }
-
-
 
     getRegisterFromParamRef(paramRef: Register): EXARegister {
 
@@ -280,6 +291,7 @@ export default class EXA {
                 })();
                 break;
 
+            // MARK - File Processing and Manipulation
             case InstructionNames.MAKE:
                 (() => {
                     if (this.F.hasFile()) {
@@ -296,6 +308,20 @@ export default class EXA {
                     }
                     // must block if there is no space on the host for the file
                     this.sim.requestFileDrop(this, this.F.getFile());
+                })();
+                break;
+
+            case InstructionNames.HOST:
+                (() => {
+                    let target = this.getRegisterFromParamRef(args[0] as Register);
+                    target.setValue(this.hostID);
+                })();
+                break;
+
+            case InstructionNames.LINK:
+                (() => {
+                    let id = (this.getValueFromParamRef(args[0] as Parameter)) as number;
+                    this.sim.requestLinkToID(id);
                 })();
                 break;
 
@@ -360,6 +386,7 @@ export default class EXA {
         });
     }
 
+    // WARNING, ALWAYS UPDATE WITH NEW STATE
     captureState(): EXAState  {
         // aw man i really wish nodejs supported es6 property shorthand init
         return {
@@ -375,4 +402,6 @@ export default class EXA {
             T: this.T,
         }
     }
+
+
 }

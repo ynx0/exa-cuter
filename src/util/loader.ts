@@ -4,7 +4,7 @@ import Program from "../parse/ast/Program";
 import Parser from "../parse/parser";
 import _ from "lodash";
 
-let parser = new Parser();
+
 class Loader {
 
     private loadedPrograms: {[key:string]: {id: string, prg: Program}}; // the program id is its file name.
@@ -12,6 +12,7 @@ class Loader {
     public static TEST_PROGRAM_DIR = './programs/test/';
     public static PASSING_PROGRAMS_DIR = Loader.TEST_PROGRAM_DIR + 'should-pass';
     public static FAILING_PROGRAMS_DIR = Loader.TEST_PROGRAM_DIR + 'should-fail';
+    private static readonly parser = new Parser();
 
     constructor() {
         this.loadedPrograms = {};
@@ -50,7 +51,7 @@ class Loader {
     }
 
     public static compileProgram(programText: string): Program {
-        return parser.getProgramAST(programText)
+        return Loader.parser.getProgramAST(programText)
     }
 
     /**

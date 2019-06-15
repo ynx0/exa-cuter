@@ -12,6 +12,10 @@ class EXANumber extends Parameter {
         return this.value;
     }
 
+    toString() {
+        return this.value.toString();
+    }
+
 }
 
 export default EXANumber;

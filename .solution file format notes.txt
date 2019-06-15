@@ -1,0 +1,39 @@
+.solution file format notes
+
+USING FILE mitsuzen-hdi10-3.solution
+
+.value refers to the actual value of the block
+.offset refers to the high offset of the block
+
+* all values are little endian unless otherwise noted
+* when a symbol is encountered, you know what will come next
+
+
+  File Format Ranges
+——————————————————————
+offset/block	value
+——————————————————————
+FileHeader: 0x00-03 = some kind of file header thing idk (ex: 0xEF00, 0xF000), 						real range 0x00-03
+LenHeader2: 0x04-07 = len of other header data - int32. (usually 0x05 or 0x06),						real range 0x04-07
+HeaderTwo: 0x08-0x08+LenHeader2.value-1 = The header in the form of PBNN(N?),						real range 0x08-0C
+SolutionNameLength: HeaderTwo.offset+0x04 = this is the length of the solution name - int32,		real range 0x0D-10
+SolutionName: SolutionNameLength.offset- +SolutionNameLength.value = this is the solution's name,	real range 0x11-20
+
+N number of following, where n is the number of programs
+VarLengthZeroPadding: ____ = This is just zero some padding so...,	real range is 0x20-2F
+
+ProgramLength: len of program - uint32								0x37-3A =
+
+————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+Misc Lengths:
+Len of 00 pads between subsequent EXA's code: 66
+
+————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+Misc Symbols:
+Symbol_EXA:				0x0A02, followed by three zeroes and then 2 bytes of EXA title (ex. XA, XB)
+
+Symbol_NORMAL_SEP:		0x20, separates parameters. is a space. Also, instructions that follow this symbol are:
+
+Symbol_NEWLINE:			0x0A
