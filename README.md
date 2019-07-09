@@ -1,10 +1,7 @@
 # EXA CUTER
-Exalang parser 
-
-EXA simulator
-
-
-Written in TypeScript
+Exalang parser.
+EXA simulator.
+Written in TypeScript.
 
 
 
@@ -14,11 +11,11 @@ Written in TypeScript
 
 
 ## Feature Roadmap
-[ ] Simulate the environment
-  [ ] Hosts
-  [ ] Links
-  [ ] Files
-  [ ] Hardware Registers
-[ ] Work on the M and F registers
-[ ] TEC Redshift
-[ ] More "Exotic" Instructions 
+- [ ] Simulate the environment
+  - [ ] Hosts
+  - [ ] Links
+  - [ ] Files
+  - [ ] Hardware Registers
+- [ ] Work on the M and F registers
+- [ ] TEC Redshift
+- [ ] More "Exotic" Instructions 
