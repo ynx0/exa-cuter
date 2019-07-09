@@ -4,10 +4,22 @@ EXA simulator.
 Written in TypeScript.
 
 
-
 ## Features
 * All Local Instructions Simulated
 * .solution file reader
+
+## Installation
+Instructions
+1. Download and Install NodeJS
+
+2. Clone the repository
+
+3. Run npm install in the cloned directory
+
+4. Install typescript if not already installed
+
+5. Run npm run exec
+
 
 
 ## Feature Roadmap
