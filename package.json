@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/ynx0/exa-cuter#readme",
   "dependencies": {
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "ohm-js": "^0.14.0",
     "queue-fifo": "^0.2.6"
   },
