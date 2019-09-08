@@ -32,7 +32,7 @@ class EXARegister {
     setValue(newVal: EXAValue): EXAResult<boolean> {
         if (this.isValid(newVal)) {
             this.value = newVal;
-            return {result: true};
+            return {value: true, error: null};
         } else {
             // return {error: SimErrors.}
             //return false; // todo do this instead of erroring out the top level language
@@ -41,16 +41,16 @@ class EXARegister {
     }
 
 
-    getValue(): EXAValue {
+    attemptRead(): EXAResult<EXAValue> {
         if (typeof this.value === "number") {
-            return parseInt(String(this.value)); // typescript complains if this is not wrapped with String(...) so...
+            return {value: parseInt(String(this.value)), error: null}; // typescript complains if this is not wrapped with String(...) so...
         } else {
-            return this.value;
+            return {value: this.value, error: null};
         }
     }
 
     toString() {
-        return `EXARegister {${this.value}}`
+        return `EXARegister{${this.attemptRead()}}`
     }
 
 }

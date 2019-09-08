@@ -15,8 +15,9 @@ class EXAMessageRegister extends EXARegister {
         return super.setValue(newVal);
     }
 
-    getValue(): EXAValue {
-        return 0;
+    attemptRead(): EXAResult<EXAValue> {
+        throw 'unimplemented'
+        // return {value: 0};
     }
 
 }
