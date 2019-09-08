@@ -1,5 +1,5 @@
 
-export default abstract class Parameter {
+export default abstract class ParameterRef {
     abstract getValue(): any;
 
     toString() {

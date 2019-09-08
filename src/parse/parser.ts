@@ -64,6 +64,7 @@ export default class Parser {
     constructor() {
         this.parser = ohm.grammar(Grammar.GRAMMAR_STRING);
         this.semantics = this.parser.createSemantics();
+        // noinspection JSUnusedGlobalSymbols
         this.actionMap = {
             Program(body) {
                 return new AST.Program(body.tree())
@@ -190,6 +191,7 @@ export default class Parser {
         if (!program) {
             throw new Error("ERROR: No Program Provided");
         }
+        program = program.trim();
         let match = this.parser.match(program);
         if (match.succeeded()) {
             return this.semantics(match).tree();

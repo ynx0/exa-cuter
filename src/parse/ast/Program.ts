@@ -1,10 +1,10 @@
-import Instruction from "./Instruction";
+import InstructionRef from "./InstructionRef";
 
 class Program {
-    readonly instructions: Instruction[];
+    readonly instructions: InstructionRef[];
 
 
-    constructor(instructions: Instruction[]) {
+    constructor(instructions: InstructionRef[]) {
         this.instructions = instructions;
     }
 

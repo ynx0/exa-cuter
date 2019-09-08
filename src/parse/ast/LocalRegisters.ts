@@ -1,7 +1,7 @@
 enum LocalRegisters {
     X = "X",
     T = "T",
-    F = "O",
+    F = "F",
     M = "M",
 }
 

@@ -1,14 +1,14 @@
-import Parameter from "./Parameter";
+import ParameterRef from "./ParameterRef";
 import Operations from "./Operations";
 
 
 class TestExpression {
-    readonly param1: Parameter;
+    readonly param1: ParameterRef;
     readonly operation: Operations;
-    readonly param2: Parameter;
+    readonly param2: ParameterRef;
 
 
-    constructor(param1: Parameter, operationString: string, param2: Parameter) {
+    constructor(param1: ParameterRef, operationString: string, param2: ParameterRef) {
         this.param1 = param1;
 
         // todo refactor

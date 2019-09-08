@@ -2,7 +2,7 @@ import ParameterRef from "./ParameterRef";
 import LocalRegisters from "./LocalRegisters";
 
 
-class Register extends ParameterRef {
+class RegisterRef extends ParameterRef {
 
     readonly name: LocalRegisters;
 
@@ -22,4 +22,4 @@ class Register extends ParameterRef {
     }
 }
 
-export default Register;
+export default RegisterRef;

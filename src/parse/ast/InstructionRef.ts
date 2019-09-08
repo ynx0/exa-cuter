@@ -1,11 +1,11 @@
 import InstructionNames from "../../sim/type/InstructionNames";
 import TestExpression from "./TestExpression";
-import Register from "./Register";
+import RegisterRef from "./RegisterRef";
 import EXANumber from "./EXANumber";
 
-class Instruction {
+class InstructionRef {
     readonly name: InstructionNames;
-    readonly args: Array<EXANumber | Register | TestExpression | string | number>;
+    readonly args: Array<EXANumber | RegisterRef | TestExpression | string | number>;
 
     constructor(info: Array<any>) {
         this.name = info[0];
@@ -21,4 +21,4 @@ class Instruction {
     }
 
 }
-export default Instruction;
+export default InstructionRef;

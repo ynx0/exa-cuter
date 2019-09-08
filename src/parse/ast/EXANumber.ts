@@ -1,6 +1,6 @@
-import Parameter from "./Parameter";
+import ParameterRef from "./ParameterRef";
 
-class EXANumber extends Parameter {
+class EXANumber extends ParameterRef {
     private value: number;
 
     constructor(num: string) {

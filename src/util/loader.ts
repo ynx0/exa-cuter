@@ -7,7 +7,7 @@ import _ from "lodash";
 
 class Loader {
 
-    private loadedPrograms: {[key:string]: {id: string, prg: Program}}; // the program id is its file name.
+    private loadedPrograms: {[key:string]: {id: string, prg: Program}}; // the program exaID is its file name.
 
     public static TEST_PROGRAM_DIR = './programs/test/';
     public static PASSING_PROGRAMS_DIR = Loader.TEST_PROGRAM_DIR + 'should-pass';
@@ -88,7 +88,7 @@ class Loader {
     private static readProgramFiles(baseDir: string, programNames: Array<string>): Array<string> {
         let programStrings: Array<string> = [];
 
-        // reads each program file, converts file to string, pushes it to result array
+        // reads each program file, converts file to string, pushes it to value array
         programNames.forEach(programName => {
             let fileContents = Loader.readProgram(path.join(baseDir, programName));
             programStrings.push(fileContents);
