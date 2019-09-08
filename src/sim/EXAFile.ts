@@ -1,14 +1,15 @@
 import Keywords from "./type/Keywords";
 import EXAValue from "./type/EXAValue";
+import {EIDPrefixes, EntityID} from "./type/Entity";
 
 
 export class EXAFile {
 
     private readonly words: Keywords;
-    private readonly id: EXAFileID;
-    public static readonly NULL_FILE = new EXAFile(-1, []);
+    public readonly id: EntityID;
+    public static readonly NULL_FILE = new EXAFile(EIDPrefixes.FILE + "???", []);
 
-    constructor(id: number, words: Keywords) {
+    constructor(id: EntityID, words: Keywords) {
         this.id = id;
         this.words = words;
     }
@@ -21,17 +22,13 @@ export class EXAFile {
         return this.words.length;
     }
 
-    getID(): number {
-        return this.id;
-    }
-
     voidValueAt(cursorPosition: number): void {
         this.words.splice(cursorPosition, 1);
     }
 
     setValueAt(cursorPosition: number, newVal: EXAValue) {
         this.words.splice(cursorPosition, 1, newVal);
+
     }
 }
 
-export type EXAFileID = number;

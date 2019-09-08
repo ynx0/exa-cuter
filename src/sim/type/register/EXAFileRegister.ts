@@ -8,7 +8,7 @@ import SimErrors from "../../SimErrors";
 class EXAFileRegister extends EXARegister{
 
     private file: EXAFile;
-    private cursorPosition: number; // [0, fileReference.size() - 1]
+    private cursorPosition: number; // [0, fileReference.size()]
 
     constructor() {
         super();
@@ -25,21 +25,26 @@ class EXAFileRegister extends EXARegister{
     }
 
     public seekCursor(amount: number): void {
-        this.cursorPosition = SimUtils.clampToRange(amount, 0, this.file.size() - 1);
+        this.cursorPosition = SimUtils.clampToRange(amount, 0, this.file.size() + 1);
     }
 
-    getValue(): EXAValue {
+    attemptRead(): EXAResult<EXAValue> {
+        if (this.cursorPosition >= this.file.size()) {
+            return {error: SimErrors.CANNOT_READ_PAST_END_OF_FILE, value: null}
+        }
         let word =  this.file.getValueAt(this.cursorPosition);
         this.cursorPosition++;
-        return word;
+        return {value: word, error: null};
     }
 
     setValue(newVal: EXAValue): EXAResult<boolean> {
         if (!this.hasFile()) {
-            return {error: SimErrors.NO_FILE_IS_HELD};
+            return {error: SimErrors.NO_FILE_IS_HELD, value: null};
         }
+        this.cursorPosition++;
+        console.log("Cursor pos: " + this.cursorPosition);
         this.file.setValueAt(this.cursorPosition, newVal);
-        return {result: true};
+        return {value: true, error: null};
     }
 
     void(): void {
@@ -52,6 +57,17 @@ class EXAFileRegister extends EXARegister{
 
     setFile(file: EXAFile) {
         this.file = file;
+    }
+
+
+    popFile(): EXAFile {
+        let poppedFile =  this.file;
+        if (!this.hasFile()) {
+            // this is a runtime error because we should only use this method if we have a file
+            throw 'Error: NO file was held at time of removing file'
+        }
+        this.file = EXAFile.NULL_FILE;
+        return poppedFile;
     }
 
 }
@@ -84,7 +100,7 @@ class EXAFileRegister extends EXARegister {
         this.cursorPosition = SimUtils.clampToRange(amount, 0, this.fileID.size() - 1);
     }
 
-    getValue(): EXAValue {
+    attemptRead(): EXAValue {
         let word =  this.fileID.getValueAt(this.cursorPosition);
         this.cursorPosition++;
         return word;

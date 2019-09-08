@@ -1,7 +1,7 @@
 import Program from "../parse/ast/Program";
 import AST from "../parse/ast/AST";
-import Register from "../parse/ast/Register";
-import Instruction from "../parse/ast/Instruction";
+import RegisterRef from "../parse/ast/RegisterRef";
+import InstructionRef from "../parse/ast/InstructionRef";
 import util from "util";
 import CommMode from "./type/CommMode";
 import EXARegister from "./type/register/EXARegister";
@@ -9,72 +9,104 @@ import EXAState from "./type/EXAState";
 import SimUtils from "../util/SimUtils";
 import InstructionNames from "./type/InstructionNames";
 import TestExpression from "../parse/ast/TestExpression";
-import Parameter from "../parse/ast/Parameter";
+import ParameterRef from "../parse/ast/ParameterRef";
 import Operations from "../parse/ast/Operations";
 import EXAValue from "./type/EXAValue";
 import EXAFileRegister from "./type/register/EXAFileRegister";
 import EXAMessageRegister from "./type/register/EXAMessageRegister";
-import Simulation from "./Simulation";
+import Environment from "./Environment";
 import SimErrors from "./SimErrors";
+import {EnvRequestType} from "./EnvRequestType";
+import {EnvRequest} from "./EnvRequest";
+import {EntityID} from "./type/Entity";
+import BlockReason from "./type/BlockReason";
+import {StatusUpdate, StatusUpdateType} from "./type/StatusUpdate";
+import {EXAResult, Value} from "../util/EXAResult";
 
 
 export type EXAOptions = {
     commMode?: CommMode;
-    initialHostID?: string
 };
 
 export default class EXA {
 
     public static MAX_CYCLE_COUNT = 1_000_000;
 
-    private readonly id: number;
+    readonly id: EntityID;
     private pc: number;
     private cycleCount: number;
     private readonly program: Program;
     private halted: boolean;
-    private readonly blocked: boolean;
+    private blocked: boolean;
+    private killed: boolean;
     private mode: CommMode;
-    private hostID: string;
+    private readonly hostID: number;
+    private readonly hostName: string;
     private readonly labelMap: { [key: string]: number };
     public readonly X: EXARegister;
     public readonly T: EXARegister;
     public readonly F: EXAFileRegister;
     public readonly M: EXARegister;
 
-    private sim: Simulation;
+    private env: Environment;
     private errorState: SimErrors | null;
+    private blockReason: BlockReason | null;
+    private killer: EntityID | null;
+
+    private readonly HALT_REQ: EnvRequest;
 
 
-    constructor(program: Program, sim: Simulation, options: EXAOptions) {
+    constructor(id: EntityID, program: Program, env: Environment, options: EXAOptions = {}) {
 
-        this.id = 0; // TODO make id (autoincremented thing?)
+        this.id = id; // TODO make exaID (autoincremented thing?)
         this.pc = 0; // program counter. the line number of current executing program
         this.cycleCount = 0; // todo implement and take into account pseudoInstructionNames (mark)
         this.program = program;
         this.halted = false;
         this.blocked = false;
+        this.killed = false;
+        this.killer = null;
+        this.blockReason = null;
         this.mode = options.commMode || CommMode.GLOBAL;
-        this.hostID = options.initialHostID || 'RHIZOME';
+        this.hostID = 0; // Special exaID of the HOME host. it should always be 0
+        this.hostName = 'HOME';
         this.labelMap = {};
+
         this.X = new EXARegister();
         this.T = new EXARegister();
         this.F = new EXAFileRegister();
         this.M = new EXAMessageRegister();
-        this.sim = sim;
+
+        this.env = env;
         this.errorState = null;
-        // todo support F and M registers
+
+        this.HALT_REQ = new EnvRequest(this.id, EnvRequestType.INFORM_HALT);
+
         // TODO refactor this to be shared in the parser?
 
         this.setupLabels();
-        this.setupCoreDump();
+        // this.setupCoreDump();
     }
 
-    public getCurrentHostID(): string {
-        return this.hostID;
+    log(message?: any, ...args: any[]) {
+        console.log(`[${this.id}]` + message, ...args);
     }
 
-    // todo better name
-    // todo check if the access level makes sense
+    public isHalted() {
+        return this.halted;
+    }
+
+    private getValueOrError<T>(result: EXAResult<T>): T {
+        if (result.error) {
+            this.setErrorStateAndHalt(result.error);
+        } else if (result.value) {
+            return result.value;
+        } else {
+            throw `Typescript Broke?`
+        }
+        throw 'Should be unreachable, but this is for you typescript'
+    }
+
     private setErrorStateAndHalt(error: SimErrors): void {
         this.errorState = error;
         this.halted = true;
@@ -86,7 +118,6 @@ export default class EXA {
             console.error("==========================CORE DUMP==========================");
             this.coreDump();
         });
-
     }
 
     coreDump() {
@@ -100,6 +131,8 @@ export default class EXA {
         REGISTERS: [
             X: ${this.X}
             T: ${this.T}
+            F: ${this.F}
+            
         ]
         `);
     }
@@ -108,26 +141,27 @@ export default class EXA {
         // Structure of labelMap: { <loop_name> : <line_num> }
         for (let lineNum in this.program.instructions) {
             let instr = this.program.instructions[lineNum];
-            if (instr.name ===  InstructionNames.MARK) {
+            if (instr.name === InstructionNames.MARK) {
                 let labelName = instr.args[0];
                 this.labelMap[labelName as string] = parseInt(lineNum);
             }
         }
     }
 
-    // when the method name contains something akin to the words "Reference" or "AST", it takes in an ast param, not a sim param
-    getValueFromParamRef(paramRef: Parameter): EXAValue {
+    // when the method name contains something akin to the words "Reference" or "AST", it takes in an ast param, not a env param
+    getValueFromParamRef(paramRef: ParameterRef): EXAResult<EXAValue> {
         // registers and numbers are both parameters
         if (paramRef instanceof AST.Register) {
-            return this.getRegisterFromParamRef(paramRef).getValue();
+            // todo see if wrapping this in this.getValueOrError() makes sense
+            return this.getRegisterFromParamRef(paramRef).attemptRead();
         } else if (paramRef instanceof AST.EXANumber) {
-            return paramRef.getValue();
+            return {error: null, value: paramRef.getValue()};
         } else {
             throw new Error("Invalid paramRef given:" + util.inspect(paramRef));
         }
     }
 
-    getRegisterFromParamRef(paramRef: Register): EXARegister {
+    getRegisterFromParamRef(paramRef: RegisterRef): EXARegister {
 
         let rawRegisterReference = paramRef.getValue();
         switch (rawRegisterReference) {
@@ -136,6 +170,7 @@ export default class EXA {
             case AST.LocalRegisters.T:
                 return this.T;
             case AST.LocalRegisters.F:
+                return this.F;
             case AST.LocalRegisters.M:
                 throw new Error("Unsupported register '" + rawRegisterReference + "' encountered");
             default:
@@ -151,10 +186,12 @@ export default class EXA {
         }
     }
 
-    processInstruction(instr: Instruction) {
+    // returns a list of side effects, empty array if none
+    processInstruction(instr: InstructionRef): EnvRequest {
 
 
         let args = instr.args;
+        let environmentRequest: EnvRequest = new EnvRequest(this.id, EnvRequestType.NO_REQ);
 
         switch (instr.name) {
 
@@ -168,6 +205,7 @@ export default class EXA {
             case InstructionNames.NOOP:
                 break;
             case InstructionNames.HALT:
+                environmentRequest = this.HALT_REQ;
                 this.halted = true;
                 break;
             case InstructionNames.MODE:
@@ -175,9 +213,15 @@ export default class EXA {
                 break;
             case InstructionNames.COPY:
                 (() => {
-                    let newValue = this.getValueFromParamRef(args[0] as Parameter);
-                    let dest = this.getRegisterFromParamRef(args[1] as Register);
-                    dest.setValue(newValue);
+                    let possibleValue = this.getValueFromParamRef(args[0] as ParameterRef);
+                    if (possibleValue.error) {
+                        environmentRequest = this.HALT_REQ;
+                        this.setErrorStateAndHalt(possibleValue.error);
+                    } else {
+                        let dest = this.getRegisterFromParamRef(args[1] as RegisterRef);
+                        dest.setValue(possibleValue.value);
+                    }
+
                 })();
                 break;
 
@@ -194,7 +238,9 @@ export default class EXA {
                 (() => {
                     let label = args[0] as string;
                     let labelLineNum = this.labelMap[label];
-                    if (typeof this.T.getValue() === "string" || this.T.getValue() >= 1) {
+                    let valueOfT = this.getValueOrError(this.T.attemptRead());
+
+                    if (typeof valueOfT === "string" || valueOfT >= 1) {
                         this.pc = labelLineNum;
                     }
                 })();
@@ -203,9 +249,10 @@ export default class EXA {
                 (() => {
                     let label = args[0] as string;
                     let labelLineNum = this.labelMap[label];
-                    console.log(util.inspect(this.T));
+                    let valueOfT = this.getValueOrError(this.T.attemptRead());
+
                     // TODO ensure that these conditions match the game
-                    if (typeof (this.T.getValue()) !== "string" && this.T.getValue() < 1) {
+                    if (typeof valueOfT !== "string" && valueOfT < 1) {
                         this.pc = labelLineNum;
                     }
                 })();
@@ -244,9 +291,13 @@ export default class EXA {
             case InstructionNames.MULI:
             case InstructionNames.DIVI:
                 (() => {
-                    let a = SimUtils.castValueToNumber(this.getValueFromParamRef(args[0] as Parameter));
-                    let b = SimUtils.castValueToNumber(this.getValueFromParamRef(args[1] as Parameter));
-                    let dest = this.getRegisterFromParamRef(args[2] as Register);
+                    let a = SimUtils.castValueToNumber(
+                        this.getValueOrError(this.getValueFromParamRef(args[0] as ParameterRef))
+                    );
+                    let b = SimUtils.castValueToNumber(
+                        this.getValueOrError(this.getValueFromParamRef(args[1] as ParameterRef))
+                    );
+                    let dest = this.getRegisterFromParamRef(args[2] as RegisterRef);
                     // console.log(`${a} ${instr.name} ${b} -> ${dest}`);
                     if (instr.name === InstructionNames.ADDI) {
                         dest.setValue(SimUtils.clampNumber(a + b));
@@ -270,13 +321,17 @@ export default class EXA {
                     // in the number [1 3 5 7], the mask of `4` translates to the digit '1'
                     //                4 3 2 1
 
-                    let mask = SimUtils.castValueToNumber(this.getValueFromParamRef(args[1] as Register));
-                    let number = SimUtils.castValueToNumber(this.getValueFromParamRef(args[0] as Register));
+                    let mask = SimUtils.castValueToNumber(
+                        this.getValueOrError(this.getValueFromParamRef(args[1] as RegisterRef))
+                    );
+                    let number = SimUtils.castValueToNumber(
+                        this.getValueOrError(this.getValueFromParamRef(args[0] as RegisterRef))
+                    );
                     let resultSign = Math.sign(mask * number);
 
                     let numArray: Array<string> = Array.from(number.toString().padStart(4, '0'));
                     let maskArray: Array<number> = Array.from(mask.toString().padStart(4, '0')).map(Number);
-                    let dest = this.getRegisterFromParamRef(args[2] as Register);
+                    let dest = this.getRegisterFromParamRef(args[2] as RegisterRef);
                     let swizArray = [];
                     for (let swizIndex of maskArray) {
                         if (swizIndex === 0) {
@@ -295,33 +350,48 @@ export default class EXA {
             case InstructionNames.MAKE:
                 (() => {
                     if (this.F.hasFile()) {
+                        environmentRequest = this.HALT_REQ;
                         this.setErrorStateAndHalt(SimErrors.CANNOT_GRAB_SECOND_FILE);
+                    } else {
+                        environmentRequest = (new EnvRequest(this.id, EnvRequestType.MAKE_FILE));
+                        console.log("Requesting for file");
                     }
-                    this.F.setFile(this.sim.createFile());
+                    // if the requestType was fulfilled
+                    // the exa will process the environment changes
+                    // and will receive a StatusUpdate that will be an object with the
+                    // file that it needed, and will then set the F register as such
+
+                    // this.F.setFile();
                 })();
                 break;
 
             case InstructionNames.DROP:
                 (() => {
                     if (!this.F.hasFile()) {
+                        environmentRequest = this.HALT_REQ
                         this.setErrorStateAndHalt(SimErrors.NO_FILE_IS_HELD);
+                    } else {
+                        environmentRequest = (new EnvRequest(this.id, EnvRequestType.DROP_FILE));
                     }
                     // must block if there is no space on the host for the file
-                    this.sim.requestFileDrop(this, this.F.getFile());
+                    // this.env.requestFileDrop(this, this.F.getFile());
+
+
                 })();
                 break;
 
             case InstructionNames.HOST:
                 (() => {
-                    let target = this.getRegisterFromParamRef(args[0] as Register);
-                    target.setValue(this.hostID);
+                    let target = this.getRegisterFromParamRef(args[0] as RegisterRef);
+                    target.setValue(this.env.getHostName(this.id));
                 })();
                 break;
 
             case InstructionNames.LINK:
                 (() => {
-                    let id = (this.getValueFromParamRef(args[0] as Parameter)) as number;
-                    this.sim.requestLinkToID(id);
+                    let id = this.getValueOrError(this.getValueFromParamRef(args[0] as ParameterRef)) as number;
+                    environmentRequest = (new EnvRequest(this.id, EnvRequestType.LINK, [id]));
+                    // this.env.requestLinkToID(exaID);
                 })();
                 break;
 
@@ -329,22 +399,71 @@ export default class EXA {
             default:
                 console.log("Unimplemented instruction: " + instr.name);
         }
+        return environmentRequest;
+
     }
 
-    runStep() {
-        // this.validateState();
-        if (this.pc >= this.program.instructions.length) {
-            this.setErrorStateAndHalt(SimErrors.OUT_OF_INSTRUCTIONS);
-            return;
-        }
-        if (this.cycleCount >= EXA.MAX_CYCLE_COUNT) {
-            this.setErrorStateAndHalt(SimErrors.TOO_MANY_CYCLES);
+    processStatusUpdates() {
+        let statusUpdate: StatusUpdate | null = this.env.getStatusUpdates(this.id);
+
+        if (statusUpdate) {
+            console.log("[EXA] received status update for me " + this.id + statusUpdate);
         }
 
-        let currentInstr = this.program.instructions[this.pc];
-        this.processInstruction(currentInstr);
-        this.pc++;
-        this.cycleCount++;
+        if (!statusUpdate) {
+            return;
+        }
+        console.log("[EXA] received status update" + statusUpdate.type);
+        switch (statusUpdate.type) {
+            case StatusUpdateType.NEW_FILE:
+                console.log("[EXA] Recieved file");
+                let newFile = statusUpdate.args[0];
+                this.F.setFile(newFile);
+                break;
+            case StatusUpdateType.KILLED:
+                let killer = statusUpdate.args[0];
+                this.setKilled(killer);
+                break;
+
+            default:
+                throw `Error: unsupported status update type: ${statusUpdate.type}`;
+
+        }
+
+        // TODO implement
+        // this is where we will get blocked or unblocked
+    }
+
+
+    runStep(): EnvRequest | undefined {
+        // this.validateState();
+        if (!this.halted) {
+            this.processStatusUpdates();
+
+            // TODO Make one obj that represents <EnvRequest(this.id, EnvRequestType.INFORM_HALT)>
+            if (this.pc >= this.program.instructions.length) {
+                this.setErrorStateAndHalt(SimErrors.OUT_OF_INSTRUCTIONS);
+                return this.HALT_REQ
+            }
+            if (this.cycleCount >= EXA.MAX_CYCLE_COUNT) {
+                this.setErrorStateAndHalt(SimErrors.TOO_MANY_CYCLES);
+                return this.HALT_REQ
+            }
+            if (this.blocked) {
+                return new EnvRequest(this.id, EnvRequestType.INFORM_BLOCKED);
+            }
+            if (this.killed) {
+                this.setErrorStateAndHalt(SimErrors.EXA_KILLED);
+                return new EnvRequest(this.id, EnvRequestType.CONFIRM_KILLED)
+            }
+
+            let environmentRequest;
+            let currentInstr = this.program.instructions[this.pc];
+            environmentRequest = this.processInstruction(currentInstr);
+            this.pc++;
+            this.cycleCount++;
+            return environmentRequest;
+        }
     }
 
     runUntil(lineNum: number) {
@@ -370,6 +489,22 @@ export default class EXA {
         }
     }
 
+    setBlocked(reason: BlockReason) {
+        this.blocked = true;
+        this.blockReason = reason;
+    }
+
+    unblock() {
+        // todo actually unblock an exa
+        this.blocked = false;
+        this.blockReason = null;
+    }
+
+    setKilled(killerID: EntityID) {
+        this.killed = true;
+        this.killer = killerID;
+    }
+
     validateState() {
         let stateChecks = [
             this.pc > 0,
@@ -387,19 +522,23 @@ export default class EXA {
     }
 
     // WARNING, ALWAYS UPDATE WITH NEW STATE
-    captureState(): EXAState  {
+    captureState(): EXAState {
         // aw man i really wish nodejs supported es6 property shorthand init
         return {
             id: this.id,
             pc: this.pc,
-            cycleCount: this.cycleCount,
-            program: this.program,
-            halted: this.halted,
-            blocked: this.blocked,
             mode: this.mode,
-            labelMap: this.labelMap,
+            halted: this.halted,
+            cycleCount: this.cycleCount,
+            errorState: this.errorState,
+            blocked: this.blocked,
+            blockReason: this.blockReason,
             X: this.X,
             T: this.T,
+            F: this.F,
+            M: this.M,
+            labelMap: this.labelMap,
+            program: this.program,
         }
     }
 
