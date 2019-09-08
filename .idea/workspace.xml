@@ -2,8 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31e4dbb4-f1a5-4fec-93ee-16c26c10b1ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/markdown-navigator/profiles_settings.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sim/EntityIDGenerator.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sim/EnvRequest.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sim/EnvRequestType.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sim/type/BlockReason.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sim/type/Entity.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sim/type/StatusUpdate.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/exafile.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/lux.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/lux.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parse/ast/AST.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/parse/ast/AST.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parse/ast/EXANumber.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/parse/ast/EXANumber.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parse/ast/Instruction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/parse/ast/InstructionRef.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parse/ast/LocalRegisters.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/parse/ast/LocalRegisters.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parse/ast/Parameter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/parse/ast/ParameterRef.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parse/ast/Program.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/parse/ast/Program.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parse/ast/Register.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/parse/ast/RegisterRef.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parse/ast/TestExpression.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/parse/ast/TestExpression.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parse/parser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/parse/parser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sim/EXA.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/EXA.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sim/EXAFile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/EXAFile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sim/Host.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/Host.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sim/SimErrors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/SimErrors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sim/Simulation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/Environment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sim/type/EXAState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/type/EXAState.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sim/type/register/EXAFileRegister.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/type/register/EXAFileRegister.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sim/type/register/EXAMessageRegister.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/type/register/EXAMessageRegister.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sim/type/register/EXARegister.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/type/register/EXARegister.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/EXAResult.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/EXAResult.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/loader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/loader.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,46 +47,12 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>sourcemap</find>
-      <find>:</find>
-      <find>this.Instuctions</find>
-      <find>.body</find>
-      <find>es</find>
-      <find>paths</find>
-      <find>ava</find>
-      <find>lodash-es</find>
-      <find>path</find>
-      <find>base</find>
-      <find>console.log</find>
-      <find>private</find>
-      <find>exaregister</find>
-      <find>a =</find>
-      <find>Instructions</find>
-      <find>console.error</find>
-      <find>exa.captureState()</find>
-      <find>max_c</find>
-      <find>swiz</find>
-      <find>as Keywor</find>
-      <find>E</find>
-      <find>Optional&lt;number&gt;</find>
-      <find>Optional</find>
-      <find>copy</find>
-      <find>Result&lt;&gt;</find>
-      <find>SimErrors</find>
-      <find>FILhxd</find>
-      <find>.from</find>
-      <find>compile</find>
-      <find>.solution</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>=</replace>
-      <replace>Instuctions</replace>
-      <replace>.instructions</replace>
-    </replaceStrings>
-  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JsFlowSettings">
@@ -74,6 +69,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
+    <property name="js.last.introduce.type" value="CONST" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="C:\Users\lux\AppData\Roaming\npm\node_modules\tslint" />
@@ -166,7 +162,8 @@
       <workItem from="1560612154091" duration="6013000" />
       <workItem from="1560620303099" duration="606000" />
       <workItem from="1564596253211" duration="598000" />
-      <workItem from="1567860628024" duration="749000" />
+      <workItem from="1567860628024" duration="23198000" />
+      <workItem from="1567948462107" duration="13028000" />
     </task>
     <servers />
   </component>

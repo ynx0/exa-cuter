@@ -1,8 +1,8 @@
-import Parameter from "./Parameter";
+import ParameterRef from "./ParameterRef";
 import LocalRegisters from "./LocalRegisters";
 
 
-class Register extends Parameter {
+class Register extends ParameterRef {
 
     readonly name: LocalRegisters;
 
