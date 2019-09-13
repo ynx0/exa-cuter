@@ -3,14 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="31e4dbb4-f1a5-4fec-93ee-16c26c10b1ed" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sim/EXA.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/EXA.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sim/EXAFile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/EXAFile.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sim/Environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/Environment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sim/Host.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/Host.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sim/SimErrors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/SimErrors.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sim/type/EXAState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/type/EXAState.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sim/type/register/EXAFileRegister.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sim/type/register/EXAFileRegister.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +133,8 @@
       <workItem from="1560620303099" duration="606000" />
       <workItem from="1564596253211" duration="598000" />
       <workItem from="1567860628024" duration="23198000" />
-      <workItem from="1567948462107" duration="14095000" />
+      <workItem from="1567948462107" duration="14710000" />
+      <workItem from="1568418688376" duration="322000" />
     </task>
     <servers />
   </component>
