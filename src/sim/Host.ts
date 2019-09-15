@@ -14,19 +14,23 @@ class Host {
     // the name will be used as its exaID
     constructor(id: EntityID, hostName: string, x: number, y: number, width: number, height: number) {
         this.localMessageQueue = new Queue<EXAMessage>();
-        this.maxObjNum =  width * height;
+        this.maxObjNum = width * height;
         this.entityIDs = [];
         this.id = id;
         this.hostName = hostName;
     }
 
     /**
-     * Convenience method
+     * Convenience method to add any id
      */
-    //
-    addEntity<T extends {id: EntityID}>(entity: T) {
+    addEntity<T extends { id: EntityID }>(entity: T) {
         console.log(`Added entity ${entity.constructor.name} with id ${entity.id}`);
-        this.addEntityID(entity.id);
+        if (!this.hasEntity(entity.id)) {
+            // ensure no duplicates
+            this.addEntityID(entity.id);
+        } else {
+            console.warn("[WARN] Tried to add duplicate Entity with id " + entity.id);
+        }
     }
 
     addEntityID(id: EntityID) {
@@ -39,12 +43,14 @@ class Host {
     }
 
     getExaIDs() {
-        console.log(this.entityIDs);
+        // console.log(this.entityIDs);
         return this.entityIDs.filter(id => id.startsWith(EIDPrefixes.EXA))
     }
+
     getFileIDs() {
         return this.entityIDs.filter(id => id.startsWith(EIDPrefixes.FILE))
     }
+
     getHWRegIDs() {
         return this.entityIDs.filter(id => id.startsWith(EIDPrefixes.HARDWARE_REGISTER))
     }
@@ -55,6 +61,10 @@ class Host {
 
     removeEntity(id: EntityID) {
         this.entityIDs.indexOf(id);
+    }
+
+    private hasEntity(id: EntityID) {
+        return this.entityIDs.indexOf(id) > -1;
     }
 }
 

@@ -1,5 +1,7 @@
 import {EIDPrefixes, EntityID} from "./type/Entity";
 
+const fileBaseID = 400; // files created by player start at 400
+
 class EntityIDGenerator {
 
     private numExa: number;
@@ -19,7 +21,7 @@ class EntityIDGenerator {
     }
 
     generateFileID(): EntityID {
-        return EIDPrefixes.FILE + (this.numFiles++);
+        return EIDPrefixes.FILE + (this.numFiles++) + fileBaseID;
     }
 
     generateHWRegID(): EntityID {

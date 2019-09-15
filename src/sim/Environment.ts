@@ -10,6 +10,7 @@ import Keywords from "./type/Keywords";
 import EntityIDGenerator from "./EntityIDGenerator";
 import BlockReason from "./type/BlockReason";
 import {StatusUpdate, StatusUpdateType} from "./type/StatusUpdate";
+import _ from "lodash";
 
 class Environment {
 
@@ -25,6 +26,8 @@ class Environment {
     private readonly hostList: Array<Host>;
     private idGen: EntityIDGenerator;
     private graveyardList: Array<EXA>;
+    private cycleCount: number;
+
 
     // TODO Possibly refactor the {exa,hwr,file,host}List to be jsobjects of type {[key:EntityID]:$objtype}
     // because im really not iterating much over them. the primary use is lookup by id so using js object/hashmap would prob be best...
@@ -38,6 +41,7 @@ class Environment {
         this.graveyardList = [];
         this.hostList = [];
         this.idGen = new EntityIDGenerator(0, 0, 0, 0);
+        this.cycleCount = 0;
     }
 
     // POSSIBLE TODO: Deduplicate the create$ENTITY() methods because they share 90% the same code, and do it based on the constructor passed in.
@@ -169,26 +173,31 @@ class Environment {
                 currHost.addEntityID(exa.F.popFile().id); // EXAs drop their file when they are terminated
                 this.removeExa(exaID);
                 break;
+
+            case EnvRequestType.INFORM_BLOCKED:
+                break;
+
+            case EnvRequestType.WIPE_FILE:
+                let fileToRemove = exa.F.popFile();
+                _.pull(this.fileList, fileToRemove);
+                break;
             default:
                 throw `Unknown EnvRequest: ${req}`;
         }
+        this.cycleCount++;
     }
 
 
 
     step() {
-
         for (let exa of this.exaList) {
             let envRequest;
             envRequest = exa.runStep();
             if (envRequest) {
-                console.log(("[ENV] Received new env request:"));
-                console.dir(envRequest);
+                // console.log(("[ENV] Received new env request:"));
+                // console.dir(envRequest);
                 this.processEnvRequest(envRequest);
             }
-            // this.envbus_out.set(exa.id, null);  // clear the previous StatusUpdate
-
-
         }
     }
 
@@ -202,7 +211,9 @@ class Environment {
     }
 
 
+    canExaReadMsg(exaID: EntityID) {
 
+    }
 }
 
 export default Environment;

@@ -10,22 +10,6 @@ ProgramLoader.loadProgramsFromDirectory(Loader.PASSING_PROGRAMS_DIR);
 // let program = ProgramLoader.getLoadedProgram(programID);
 
 
-let simpleProgram = `
-ADDI 1 1 T
-MULI T T T
-SUBI T 200 T
-`;
-
-let fileProgram = `
-MAKE
-COPY 45 F
-COPY 50 F
-COPY F X
-ADDI X 1 X
-`;
-
-let compiledProgram = Loader.compileProgram(fileProgram);
-
 // let solution = SolutionManager.makeSolution("Test Solution 1", [Loader.compileProgram(programText)]);
 // console.log(solution);
 // let success = SolutionManager.sol2bin(solution, './solutions/arith1.solution');
@@ -38,6 +22,25 @@ let compiledProgram = Loader.compileProgram(fileProgram);
 // });
 
 
+const fileProgramText2 = `
+MAKE
+COPY 30 F
+TEST EOF
+WIPE
+`;
+
+const fileProgramText3 = `
+MAKE
+COPY 5 F
+COPY 6 F
+SEEK -1
+TEST EOF
+SEEK 9999
+TEST EOF
+NOOP
+`;
+
+let compiledProgram = Loader.compileProgram(fileProgramText3);
 let env = new Environment();
 let homeHost = env.createHost("RHIZOME", 3, 3);
 let XA = new EXA("EXATEST001", compiledProgram, env);
@@ -51,14 +54,16 @@ env.step();
 env.step();
 env.step();
 env.step();
+console.log(XA.F);
 env.step();
-
-
+console.log(XA.F);
+env.step();
+console.log(XA.F);
+console.log(XA.isHalted());
+env.step();
+env.step();
+env.step();
 console.log(XA.captureState());
-console.log(XA.F.getFile());
-console.log("LOL" + homeHost.getFileIDs());
-
-
 // XA.run();
 
 // console.log(`Ran Program ${programID}`);

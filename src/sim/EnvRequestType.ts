@@ -8,5 +8,6 @@ export enum EnvRequestType {
     GET_HOST,
     MAKE_FILE,
     DROP_FILE,
-    LINK
+    LINK,
+    WIPE_FILE,
 }

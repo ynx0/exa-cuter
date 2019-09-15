@@ -8,7 +8,7 @@ import GrammarInstructions from "./ast/GrammarInstructions";
 import Registers from "./ast/Registers";
 import Grammar from "./exa_grammar";
 
-type ArityMap = {[key: string] :number}
+type ArityMap = { [key: string]: number }
 
 
 // type ArityMap = {
@@ -168,23 +168,8 @@ export default class Parser {
         }
         bodyStr += ']';
 
-        // console.log(bodyStr);
-
         return new Function(argsStr, bodyStr) as Action;
 
-        // yeah i know this is an abomination but idk how else to do it...
-        // return new Function(
-        //     'param1,'
-        //     + `${has2Args ? 'param2,' : ''}`
-        //     + `${has3Args ? 'param3,' : ''}`
-        //     + `${has4Args ? 'param4,' : ''}`,
-        //     `return [
-        //     param1.tree(),
-        //     ${has2Args ? 'param2.tree(),' : ''}
-        //     ${has3Args ? 'param3.tree(),' : ''}
-        //     ${has4Args ? 'param4.tree(),' : ''}
-        //     ]`
-        // );
     }
 
     getProgramAST(program: string) {

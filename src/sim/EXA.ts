@@ -21,7 +21,9 @@ import {EnvRequest} from "./EnvRequest";
 import {EntityID} from "./type/Entity";
 import BlockReason from "./type/BlockReason";
 import {StatusUpdate, StatusUpdateType} from "./type/StatusUpdate";
-import {EXAResult, Value} from "../util/EXAResult";
+import {EXAResult} from "../util/EXAResult";
+import Tokens from "../parse/ast/Tokens";
+import EXANumber from "../parse/ast/EXANumber";
 
 
 export type EXAOptions = {
@@ -40,8 +42,8 @@ export default class EXA {
     private blocked: boolean;
     private killed: boolean;
     private mode: CommMode;
-    private readonly hostID: number;
-    private readonly hostName: string;
+    // private readonly hostID: number;
+    // private readonly hostName: string;
     private readonly labelMap: { [key: string]: number };
     public readonly X: EXARegister;
     public readonly T: EXARegister;
@@ -68,8 +70,8 @@ export default class EXA {
         this.killer = null;
         this.blockReason = null;
         this.mode = options.commMode || CommMode.GLOBAL;
-        this.hostID = 0; // Special exaID of the HOME host. it should always be 0
-        this.hostName = 'HOME';
+        // this.hostID = 0; // Special exaID of the HOME host. it should always be 0
+        // this.hostName = 'HOME';
         this.labelMap = {};
 
         this.X = new EXARegister();
@@ -87,6 +89,31 @@ export default class EXA {
         this.setupLabels();
         // this.setupCoreDump();
     }
+
+    // WARNING, ALWAYS UPDATE WITH NEW STATE
+    captureState(): EXAState {
+        // aw man i really wish nodejs supported es6 property shorthand init
+        return {
+            id: this.id,
+            pc: this.pc,
+            cycleCount: this.cycleCount,
+            program: this.program,
+            halted: this.halted,
+            blocked: this.blocked,
+            killed: this.killed,
+            killer: this.killer,
+            blockReason: this.blockReason,
+            mode: this.mode,
+            errorState: this.errorState,
+            labelMap: this.labelMap,
+            X: this.X,
+            T: this.T,
+            F: this.F,
+            M: this.M,
+            env: this.env,
+        }
+    }
+
 
     log(message?: any, ...args: any[]) {
         console.log(`[${this.id}]` + message, ...args);
@@ -259,27 +286,50 @@ export default class EXA {
                 break;
             case InstructionNames.TEST:
                 (() => {
+                    let testExpr = args[0];
+                    // Handle `TEST EOF`
+                    if (testExpr === Tokens.EOF) {
+                        if (!this.F.hasFile()) {
+                            environmentRequest = this.HALT_REQ;
+                            this.setErrorStateAndHalt(SimErrors.NO_FILE_IS_HELD);
+                        } else {
+                            if (this.F.isAtEOF()) {
+                                this.T.setValue(1);
+                            } else {
+                                this.T.setValue(0);
+                            }
+                        }
 
-                    let testExpr = args[0] as TestExpression;
-                    // TODO what to do for strings?/keywords
-                    let param1 = this.getValueFromParamRef(testExpr.param1);
-                    let param2 = this.getValueFromParamRef(testExpr.param2);
-                    let operation = testExpr.operation;
+                    // Handle `TEST MRD`
+                    } else if (testExpr === Tokens.MRD) {
+                        // tests without pausing (blocking)
+                        this.T.setValue(Number(this.env.canExaReadMsg(this.id)))
 
-                    let result;
-
-                    if (operation === Operations.EQUALS) {
-                        // todo make another method that actually tests for equality? cause this tests for raw js equality
-                        result = param1 === param2;
-                    } else if (operation === Operations.LESS_THAN) {
-                        result = param1 < param2;
-                    } else if (operation === Operations.GREATER_THAN) {
-                        result = param1 > param2;
-                    }
-                    if (result) {
-                        this.T.setValue(1);
+                    // Handle regular TestExpressions (i.e. `TEST X > 1`)
                     } else {
-                        this.T.setValue(0);
+
+                        testExpr = testExpr as TestExpression; // Ensure we are working with a real TypeExpr Obj
+
+                        // TODO what to do for strings?/keywords
+                        let param1 = this.getValueFromParamRef(testExpr.param1);
+                        let param2 = this.getValueFromParamRef(testExpr.param2);
+                        let operation = testExpr.operation;
+
+                        let result;
+
+                        if (operation === Operations.EQUALS) {
+                            // todo make another method that actually tests for equality? cause this tests for raw js equality
+                            result = param1 === param2;
+                        } else if (operation === Operations.LESS_THAN) {
+                            result = param1 < param2;
+                        } else if (operation === Operations.GREATER_THAN) {
+                            result = param1 > param2;
+                        }
+                        if (result) {
+                            this.T.setValue(1);
+                        } else {
+                            this.T.setValue(0);
+                        }
                     }
                 })();
                 break;
@@ -347,6 +397,7 @@ export default class EXA {
                 break;
 
             // MARK - File Processing and Manipulation
+                // TODO deduplicate the if !hasFile logic
             case InstructionNames.MAKE:
                 (() => {
                     if (this.F.hasFile()) {
@@ -354,7 +405,7 @@ export default class EXA {
                         this.setErrorStateAndHalt(SimErrors.CANNOT_GRAB_SECOND_FILE);
                     } else {
                         environmentRequest = (new EnvRequest(this.id, EnvRequestType.MAKE_FILE));
-                        console.log("Requesting for file");
+                        // console.log("Requesting for file");
                     }
                     // if the requestType was fulfilled
                     // the exa will process the environment changes
@@ -368,7 +419,7 @@ export default class EXA {
             case InstructionNames.DROP:
                 (() => {
                     if (!this.F.hasFile()) {
-                        environmentRequest = this.HALT_REQ
+                        environmentRequest = this.HALT_REQ;
                         this.setErrorStateAndHalt(SimErrors.NO_FILE_IS_HELD);
                     } else {
                         environmentRequest = (new EnvRequest(this.id, EnvRequestType.DROP_FILE));
@@ -380,6 +431,45 @@ export default class EXA {
                 })();
                 break;
 
+            case InstructionNames.FILE:
+                (() => {
+                    let targetRegister = this.getRegisterFromParamRef(args[0] as RegisterRef);
+
+                    if (!this.F.hasFile()) {
+                        environmentRequest = this.HALT_REQ;
+                        this.setErrorStateAndHalt(SimErrors.NO_FILE_IS_HELD);
+                    } else {
+                        targetRegister.setValue(this.F.getFile().id);
+                    }
+                })();
+                break;
+
+            case InstructionNames.WIPE:
+                (() => {
+                    if (!this.F.hasFile()) {
+                        environmentRequest = this.HALT_REQ;
+                        this.setErrorStateAndHalt(SimErrors.NO_FILE_IS_HELD);
+                    } else {
+                        environmentRequest = new EnvRequest(this.id, EnvRequestType.WIPE_FILE)
+                    }
+                })();
+                break;
+
+            case InstructionNames.SEEK:
+                (() => {
+
+                    let seekAmount = args[0] as EXANumber;
+
+                    if (!this.F.hasFile()) {
+                        environmentRequest = this.HALT_REQ;
+                        this.setErrorStateAndHalt(SimErrors.NO_FILE_IS_HELD);
+                    } else {
+                        this.F.seekCursor(seekAmount.getValue());
+                    }
+                })();
+                break;
+
+            // MARK - Movement Instructions
             case InstructionNames.HOST:
                 (() => {
                     let target = this.getRegisterFromParamRef(args[0] as RegisterRef);
@@ -397,7 +487,7 @@ export default class EXA {
 
 
             default:
-                console.log("Unimplemented instruction: " + instr.name);
+                throw new Error("Unimplemented instruction: " + instr.name);
         }
         return environmentRequest;
 
@@ -407,16 +497,14 @@ export default class EXA {
         let statusUpdate: StatusUpdate | null = this.env.getStatusUpdates(this.id);
 
         if (statusUpdate) {
-            console.log("[EXA] received status update for me " + this.id + statusUpdate);
-        }
-
-        if (!statusUpdate) {
+            // console.log("[EXA] received status update for me " + this.id + statusUpdate);
+        } else {
             return;
         }
-        console.log("[EXA] received status update" + statusUpdate.type);
+        // console.log("[EXA] received status update" + statusUpdate.type);
         switch (statusUpdate.type) {
             case StatusUpdateType.NEW_FILE:
-                console.log("[EXA] Recieved file");
+                // console.log("[EXA] Recieved file");
                 let newFile = statusUpdate.args[0];
                 this.F.setFile(newFile);
                 break;
@@ -520,27 +608,5 @@ export default class EXA {
             }
         });
     }
-
-    // WARNING, ALWAYS UPDATE WITH NEW STATE
-    captureState(): EXAState {
-        // aw man i really wish nodejs supported es6 property shorthand init
-        return {
-            id: this.id,
-            pc: this.pc,
-            mode: this.mode,
-            halted: this.halted,
-            cycleCount: this.cycleCount,
-            errorState: this.errorState,
-            blocked: this.blocked,
-            blockReason: this.blockReason,
-            X: this.X,
-            T: this.T,
-            F: this.F,
-            M: this.M,
-            labelMap: this.labelMap,
-            program: this.program,
-        }
-    }
-
 
 }

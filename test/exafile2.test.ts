@@ -6,30 +6,23 @@ import Host from "../src/sim/Host";
 import Program from "../src/parse/ast/Program";
 
 
-/*
-This file contains various tests related to the file functionality of EXAPUNKS.
- */
 
-
-const fileProgram =
-    `
+const fileProgramText2 = `
 MAKE
-COPY 45 F
-COPY 50 F
-COPY F X
-ADDI X 1 X
-DROP
+COPY 30 F
+WIPE
 `;
 
-
 let compiledProgram: Program;
+let compiledProgram2: Program;
 let env: Environment;
 let homeHost: Host;
 let XA: EXA;
 
 
+
 test.before('Init and Compile', t => {
-    compiledProgram = Loader.compileProgram(fileProgram);
+    compiledProgram = Loader.compileProgram(fileProgramText2);
     env = new Environment();
     homeHost = env.createHost("RHIZOME", 3, 3);
     XA = new EXA("EXATEST001", compiledProgram, env);
@@ -38,20 +31,22 @@ test.before('Init and Compile', t => {
 });
 
 // probably shouldn't do it like this but eh whatever
-test.serial('Ensure file is properly written to', t => {
+test.serial('Ensure file is created', t => {
     env.step();
     env.step();
-    env.step();
-    t.assert(XA.F.getFile().getValueAt(0) === 45);
+    t.assert(XA.F.hasFile());
 });
 
-test.serial('Ensure EXA A properly halts', t => {
+
+test.serial('Ensure file is copied to', t => {
     env.step();
-    env.step();
-    t.assert(XA.isHalted());
+    t.log("File is" + XA.F.getFile().toString());
+    t.assert(XA.F.getFile().getValueAt(0) === 30);
 });
 
 test.serial('Ensure File Dropped after Exa Halts', t => {
-    t.assert(homeHost.getFileIDs().length > 0);
+    env.step();
+    env.step();
+    t.assert(!XA.F.hasFile())
 });
 

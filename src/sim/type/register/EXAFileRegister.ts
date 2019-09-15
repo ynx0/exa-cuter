@@ -25,7 +25,11 @@ class EXAFileRegister extends EXARegister{
     }
 
     public seekCursor(amount: number): void {
-        this.cursorPosition = SimUtils.clampToRange(amount, 0, this.file.size() + 1);
+        // console.log("OLD cur pos" + this.cursorPosition);
+        // console.log((this.cursorPosition.constructor.name));
+        // console.log((amount.constructor.name));
+        // console.log("New Cursor Pos: " + newCurPos);
+        this.cursorPosition = SimUtils.clampToRange(this.cursorPosition + amount, 0, this.file.size() + 1);
     }
 
     attemptRead(): EXAResult<EXAValue> {
@@ -42,7 +46,7 @@ class EXAFileRegister extends EXARegister{
             return {error: SimErrors.NO_FILE_IS_HELD, value: null};
         }
         this.cursorPosition++;
-        console.log("Cursor pos: " + this.cursorPosition);
+        // console.log("Cursor pos: " + this.cursorPosition);
         this.file.setValueAt(this.cursorPosition, newVal);
         return {value: true, error: null};
     }
@@ -51,8 +55,8 @@ class EXAFileRegister extends EXARegister{
         this.file.voidValueAt(this.cursorPosition);
     }
 
-    testForEOF(): boolean {
-        return this.cursorPosition === this.file.size() - 1;
+    isAtEOF(): boolean {
+        return this.cursorPosition === this.file.size();
     }
 
     setFile(file: EXAFile) {
@@ -110,7 +114,7 @@ class EXAFileRegister extends EXARegister {
         this.fileID.voidValueAt(this.cursorPosition);
     }
 
-    testForEOF(): boolean {
+    isAtEOF(): boolean {
         return this.cursorPosition === this.fileID.size() - 1;
     }
 

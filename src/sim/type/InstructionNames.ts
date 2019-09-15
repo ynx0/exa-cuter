@@ -20,7 +20,9 @@ enum InstructionNames {
     DROP = "DROP",
     LINK = "LINK",
     HOST = "HOST",
-
+    FILE = "FILE",
+    WIPE = "WIPE",
+    SEEK = "SEEK",
 }
 
 export default InstructionNames;

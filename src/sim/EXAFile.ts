@@ -30,5 +30,9 @@ export class EXAFile {
         this.words.splice(cursorPosition, 1, newVal);
 
     }
+
+    toString() {
+        return JSON.stringify(this);
+    }
 }
 

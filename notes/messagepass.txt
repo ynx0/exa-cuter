@@ -1,0 +1,13 @@
+exa message passing notes
+
+so 1 message pass actually counts as 4 cycles (for the environment)
+
+
+
+exa message randomness
+it seems that even in global mode,
+the exas seem to prefer the closest exa to them (i.e. one in their own host)
+
+the manual says its random, but it always goes to a specific one every loop
+i think it is random in how it selects it, but there is definitely a formula.
+
