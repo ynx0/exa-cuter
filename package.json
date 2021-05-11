@@ -24,7 +24,7 @@
     "arraybuffer-to-string": "latest",
     "binary-file": "^0.2.1",
     "hashmap": "^2.3.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "number-to-letter": "^1.0.1",
     "ohm-js": "^0.14.0",
     "queue-fifo": "^0.2.6"
